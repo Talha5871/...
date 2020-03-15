@@ -1,0 +1,3560 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="../../external.html?link=http://www.w3.org/1999/xhtml">
+<!-- Mirrored from www.dot.cf/en/api.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 15 Mar 2020 14:37:52 GMT -->
+<head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>About Dot CF</title>
+    <meta name="keywords" content="Dot CF, Central African Republic, Freedom Registry, Inc., Palo Alto, California" />
+    <meta name="description" content="Dot CF is an initiative of the Societe Centrafricaine de Telecommunications (SOCATEL) in Bangui, Central African Republic.
+SOCATEL is using the infrastructure and expertise of Freedom Registry to run the CF domain in a stable and automated way." />
+    <link href="../css/styles-2_0.css" rel="stylesheet" type="text/css">
+    <!--[if lt IE 8]>
+      <link href="http://www.dot.cf/css/stylesIE7-3_0.css" rel="stylesheet" type="text/css" />
+      <script src="http://ie7-js.googlecode.com/svn/version/2.1(beta4)/IE7.js">IE7_PNG_SUFFIX="logo.png";</script>
+    <![endif]-->
+    <!--[if IE 6]> <style> #languagePlaceholder {margin-left:-100px;} </style> <![endif]-->
+    <script type="text/javascript" src="../js/jquery.js"> </script> 
+    <script type="text/javascript" src="../js/langmenu.js"> </script>
+    <script type="text/javascript" src="../js/register.js"> </script>
+	
+	<style>
+	  h2 {font-size:16px;}
+	  /* styles for al10 (english only) */
+   	  div.aln10 { font: italic 11px Verdana, Arial, Sans-Serif; display: block; text-align: left; }
+	  div.aln10#en { display: none; }
+	</style>
+    <script type="text/javascript">document.write(unescape("%3Cscript src='" + (("https:" == document.location.protocol) ? "https" : "http") + "://cdn.mouseflow.com/projects/553759c6-aae5-441c-bf8d-351751d2b844.js' type='text/javascript'%3E%3C/script%3E"));</script>
+  </head><body>
+    <div class="masterWrapper" id="en">
+      <div id="main">
+
+        <!-- Header Start -->
+        <div class="header">
+          <div id="header1Left">
+            <div class="left_top2">
+              <a href="index.html"><img src="../images.v2/logo.png" alt="Dot CF"></a>
+            </div>
+          </div>
+          <div id="header1Right">
+            <div class="topLinksHomeX">
+              <p> </p>
+            </div>
+            <div id="langChoice" class="topLinksHomeX">
+              <p> </p>
+            </div>
+          </div>
+          <div class="clr"></div>
+        </div>
+        <!-- Header end -->
+
+        <!-- background -->
+        <div  class="background">
+          <img src="../../external.html?link=http://www.dot.cf/cgi-bin/background?s=0" class="bg2" />
+          <div class="contentHome">
+            <div class="formWrapHome4">
+              <div class="formWrapHome5">
+
+
+                <div class="formWrapBox">
+                  <p class="register"></p>
+
+                  <!-- Display Start -->
+                  <div class="display">
+					
+                  </div><!-- Display End -->
+
+                  <div class="innerWrap">
+                    
+<h1>Introduction</h1>
+<p>This document describes the Freenom API at a technical level. It explains the supported data formats and how to interact with the API. For each function supported by the API a description is given including an example how such a function call and response may look.</p>
+<p>Examples are given using the command line tool &apos;curl&apos;. Curl is an easy tool to access any URL and is installed on most Unix like environments.</p>
+<p>&nbsp;</p>
+<h2>Data formats</h2>
+<p>The API delivers output in JSON format by default. If the API User prefers, output can be given in XML. The method of output is defined in the function call. </p>
+<p><strong>Example:</strong> Ping the service</p>
+<img src="../images.v2/icon_input.png" alt="Input" width="25" height="25" class="api_icon" />
+<div class="code_box"><span class="code_title">Request</span>
+    <textarea class="apitextarea" readonly rows=1 cols=90>curl -X GET https://api.dot.cf/v2/service/ping </textarea>
+</div>
+<img src="../images.v2/icon_output.png" alt="Output" width="25" height="25" class="api_icon" />
+<div class="code_box"> <span class="code_title">Response</span>
+    <textarea class="apitextarea" readonly rows=3 cols=90>{ "timestamp" : "2010-06-01 16:04:12 UTC",
+    "result" : "PING REPLY",
+    "status" : "OK"
+    } </textarea>
+</div>
+<p> <strong>Example:</strong> Ping the service expecting XML output. Note the .xml behind the method name.</p>
+<img src="../images.v2/icon_input.png" alt="Input" width="25" height="25" class="api_icon" />
+<div class="code_box"><span class="code_title">Request</span>
+    <textarea class="apitextarea" readonly rows=1 cols=90>curl -X GET https://api.dot.cf/v2/service/ping.xml</textarea>
+</div>
+<img src="../images.v2/icon_output.png" alt="Output" width="25" height="25" class="api_icon" />
+<div class="code_box"> <span class="code_title">Response</span>
+    <textarea class="apitextarea" readonly rows=6 cols=90>
+    <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+    <dotcf>
+        <result>PING REPLY</result>
+        <timestamp>2010-06-01 16:04:12 UTC</timestamp>
+        <status>OK</status>
+    </dotcf>
+    </textarea>
+</div>
+<p>Examples in this manual are given in XML for readability.</p>
+<hr><p>&nbsp;</p>
+<h2>Interacting with Freenom API</h2>
+<p>Interaction with the API should be trivial. The service is a RESTful-like service that interacts over HTTPS. Of all the HTTP methods available, only GET and POST are used. GET calls retrieve information and do not change anything, while POST calls are meant to change data.</p>
+<p>POST calls are idempotent for 30 seconds. This allows a caller to resubmit a transaction having it not being executed twice.</p>
+<hr><p>&nbsp;</p>
+<h2>Common errors</h2>
+<p>Each function supported by the API has been documented thoroughly. Some errors can occur for a multiple of functions and are described in this chapter. This information will not be repeated in the related function description. </p>
+<h3>Function not found</h3>
+<p>In case an unsupported function is called, the service will reply the following:</p>
+<textarea name="textarea" cols=90 rows=5 readonly class="apitextarea">
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<dotcf>
+    <error>No function called or function not supported</error>
+    <status>error</status>
+</dotcf>
+</textarea>
+<h3>Not authorized</h3>
+<p>Most functions can only be executed by authorized users. For these functions authorization must take place. If the user is not authorized to make the call, the content returned will be:</p>
+<textarea name="textarea" cols=90 rows=5 readonly class="apitextarea">
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<dotcf>
+    <error>No anonymous access, authorization required</error>
+    <status>error</status>
+</dotcf>
+</textarea>
+<h3>Invalid data submitted</h3>
+<p>If the function itself is supported, but data submitted is invalid or missing an error will be reported. For example:</p>
+<img src="../images.v2/icon_input.png" alt="Input" width="25" height="25" class="api_icon" />
+<div class="code_box"><span class="code_title">Request</span>
+    <textarea class="apitextarea" readonly rows=3 cols=90>curl -X GET "https://api.dot.cf/v2/domain/search.xml\
+    ?domainname=------.tk\
+    &domaintype=PAID"
+    </textarea>
+</div>
+<img src="../images.v2/icon_output.png" alt="Output" width="25" height="25" class="api_icon" />
+<div class="code_box"> <span class="code_title">Response</span>
+    <textarea class="apitextarea" readonly rows=5 cols=90>
+    <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+    <dotcf>
+        <status>error</status>
+        <error>Invalid domainname</error>
+    </dotcf>
+    </textarea>
+</div><div class="clear"></div>
+<p>The status field will state &apos;error&apos; when an error occurred. Whenever this field is set to &apos;error&apos;, an element will display the error found.</p>
+<p>
+    The service will always reply directly when a first error is found. If there are multiple errors in the function call, only one is returned. This stops the service from doing unnecessary work, as the call will fail in any case.</p>
+<hr><p>&nbsp;</p>
+<h2>Function parameters</h2>
+<h3>Commonly used parameters</h3><p>A number of parameters are used in a multiple of functions. Other parameters deserve special attention. Those parameters are explained in this chapter.</p>
+<table width="95%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td width="24%" valign="top"><p><strong>domainname</strong></p></td>
+        <td width="76%" valign="top"><p>The domain name involved. The domain name should consist of only a-z and 0-9 characters and the - (dash). The dash may not be in the beginning or end of the domain name. Domain names are not case sensitive</p></td>
+    </tr>
+    <tr>
+        <td valign="top"><p><strong>forward_url</strong></p></td>
+        <td valign="top"><p>If the domain is configured for forwarding, the URL to forward traffic for the domain to is given via the forward_url. The forward_url can be any HTTP or HTTPS URL. </p></td>
+    </tr>
+    <tr>
+        <td valign="top"><p><strong>nameserver</strong></p></td>
+        <td valign="top"><p>The nameserver. A nameserver needs to be a hostname that is resolvable if it&apos;s a hostname not under the domain name specified.</p>
+        </td>
+    </tr>
+    <tr>
+        <td valign="top"><p><strong>period</strong></p></td>
+        <td valign="top"><p>The period of domain registration or renewal. Paid domains are registered in number of years. Supported periods for Paid domains: 1Y, 2Y, 3Y, 4Y, 5Y, 9Y and 10Y. 
+Free domains are registered in number of months. Supported periods for Free domains: 1M - 12M.</p></td>
+    </tr>
+    <tr>
+        <td valign="top"><p><strong>idshield</strong></p></td>
+        <td valign="top"><p>ID Shield is a FREE privacy service that is designed to protect you. Your personal information is not exposed in the WHOIS database, while emails are automatically forwarded - after human interface detection - to the email address we have on file. The two possible values of the parameter: enabled or disabled.</p></td>
+    </tr>
+</table>
+<p>&nbsp;</p>
+<h3>Supporting parameters</h3>
+<p>Supporting parameters are parameters that are not specific to a function call but to the API behavior.</p>
+<table width="95%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td width="24%" valign="top"><p><strong>test_mode</strong></p></td>
+        <td width="76%" valign="top"><p>When set to 1, the function is discarded after execution. Any changes done to Freenom&apos;s database are rolled back.</p></td>
+    </tr>
+    <tr>
+        <td valign="top"><p><strong>method</strong></p></td>
+        <td valign="top"><p>If caller is unable to specify the method of the function by that method, this parameter can help. Setting the method parameter to &apos;post&apos; will tell the service that a POST method is meant by caller. Same counts for &apos;get&apos;, &apos;put&apos; and &apos;delete&apos;.</p></td>
+    </tr>
+</table>
+<p>&nbsp;</p>
+<h3>The multiple flag</h3>
+<p>Function parameters are described in a table for each function. One of the columns in this table is labeled &quot;multiple&quot;. This indicates whether or not the parameter can be specified more than once.</p>
+<p>An example call would look like this:
+</p>
+<textarea textarea name="textarea" cols=90 rows=4 readonly class="apitextarea">
+curl -X POST https://api.dot.cf/v2/domain/register.xml\
+-d “domainname=TEST001.TK\
+&nameserver=NS1.TEST001.TK\
+&nameserver=NS2.TEST001.TK\
+&domaintype=PAID”
+</textarea>
+<p>&nbsp;</p>
+
+
+
+<h1>API functions</h1>
+<p>&nbsp;</p>
+<h3>Ping the service</h3>
+<img src="../images.v2/icon_syntax.png" alt="Input" width="25" height="25" class="api_icon" />
+<div class="code_text"><strong>URL:</strong> https://api.dot.cf/v2/service/ping<br />
+    <strong>Method:</strong> GET</div>
+<img src="../images.v2/icon_description.png" alt="Input" width="25" height="25" class="api_icon" />
+<div class="code_text"><strong>Description:</strong> This function allows the user to check the status of the server. The server will return its latest timestamp.</div>
+<div class="clear"></div>
+<p><strong>Parameters:</strong> None.</p>
+<span class="tabletitle">Returned properties</span>
+<table width="95%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td width="24%" valign="top"><strong>Property</strong></td>
+        <td width="76%" valign="top"><strong>Description</strong></td>
+    </tr>
+    <tr>
+        <td valign="top">result</td>
+        <td valign="top">PING REPLY</td>
+    </tr>
+    <tr>
+        <td valign="top">timestamp</td>
+        <td valign="top">YYYY-MM-DD HH24:MI:SS UTC</td>
+    </tr>
+    <tr>
+        <td valign="top">status</td>
+        <td valign="top">OK </td>
+    </tr>
+</table>
+<p>&nbsp;</p>
+<p><strong>Example:</strong></p>
+<img src="../images.v2/icon_input.png" alt="Input" width="25" height="25" class="api_icon" />
+<div class="code_box"><span class="code_title">Request</span>
+    <textarea class="apitextarea" readonly rows=1 cols=90>
+    curl -X GET https://api.dot.cf/v2/service/ping.xml</textarea>
+</div>
+<img src="../images.v2/icon_output.png" alt="Output" width="25" height="25" class="api_icon" />
+<div class="code_box"> <span class="code_title">Response</span>
+    <textarea class="apitextarea" readonly rows=6 cols=90>
+    <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+    <dotcf>
+        <result>PING REPLY</result>
+        <status>OK</status>
+        <timestamp>2013-01-07 13:50:26 UTC</timestamp>
+    </dotcf>
+    </textarea>
+</div>
+<p>&nbsp;</p>
+<div class="clear"></div>
+<hr>
+<h3>Search for available domains</h3>
+<img src="../images.v2/icon_syntax.png" alt="Input" width="25" height="25" class="api_icon" />
+<div class="code_text"><strong>URL:</strong> https://api.dot.cf/v2/domain/search<br />
+    <strong>Method:</strong> GET</div>
+<img src="../images.v2/icon_description.png" alt="Input" width="25" height="25" class="api_icon" />
+<div class="code_text"><strong>Description:</strong> This function allows the API user to search a domain for availability.</div>
+<div class="clear"></div>
+<span class="tabletitle">Parameters</span>
+<table width="95%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td width="19%" valign="top"><strong>Parameter</strong></td>
+        <td width="44%" valign="top"><strong>Description</strong></td>
+        <td width="19%" valign="top"><strong>Required</strong></td>
+        <td width="18%" valign="top"><strong>Multiple</strong></td>
+    </tr>
+    <tr>
+        <td valign="top">domainname</td>
+        <td valign="top">The name of the domain</td>
+        <td valign="top">Yes</td>
+        <td valign="top">No</td>
+    </tr>
+    <tr>
+        <td valign="top">email</td>
+        <td valign="top">E-mail address used for authentication </td>
+        <td valign="top">No</td>
+        <td valign="top">No</td>
+    </tr>
+    <tr>
+        <td valign="top">password</td>
+        <td valign="top">Password used for authentication </td>
+        <td valign="top">No</td>
+        <td valign="top">No</td>
+    </tr>
+    <tr>
+        <td valign="top">domaintype</td>
+        <td valign="top">The type of the domain: PAID or FREE</td>
+        <td valign="top">Yes</td>
+        <td valign="top">No</td>
+    </tr>
+</table>
+<p>&nbsp;</p>
+<span class="tabletitle">Returned properties</span>
+<table width="95%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td width="19%" valign="top"><strong>Property</strong></td>
+        <td width="63%" valign="top"><strong>Description</strong></td>
+        <td width="18%" valign="top"><strong>Type</strong></td>
+    </tr>
+    <tr>
+        <td valign="top">result</td>
+        <td valign="top">DOMAIN AVAILABLE or DOMAIN NOT AVAILABLE </td>
+        <td valign="top">Both </td>
+    </tr>
+    <tr>
+        <td valign="top">domain</td>
+        <td valign="top">One or multiple hashes with result of domain name search</td>
+        <td valign="top">Both </td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;domainname</td>
+        <td valign="top">The domain name as requested</td>
+        <td valign="top">Both </td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;domaintype</td>
+        <td valign="top">The domaintype of the searched domain name.</td>
+        <td valign="top">Both </td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;pricing</td>
+        <td valign="top">Multiple hashes of pricing info for domainname.</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;&emsp;currency</td>
+        <td valign="top">The currency for given prices</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;&emsp;period</td>
+        <td valign="top">The registration period for given price.</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;&emsp;partnerprice</td>
+        <td valign="top">The amount to be paid by the reseller</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;&emsp;retailprice</td>
+        <td valign="top">The amount to be paid by the enduser. (public price)</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;status</td>
+        <td valign="top">AVAILABLE or NOT AVAILABLE</td>
+        <td valign="top">Both </td>
+    </tr>
+    <tr>
+        <td valign="top">status</td>
+        <td valign="top">OK </td>
+        <td valign="top">Both</td>
+    </tr>
+</table>
+<p>&nbsp;</p>
+<p><strong>Example:</strong> Check the availability of domain test001.tk </p>
+<img src="../images.v2/icon_input.png" alt="Input" width="25" height="25" class="api_icon" />
+<div class="code_box"><span class="code_title">Request</span>
+    <textarea class="apitextarea" readonly rows=5 cols=90>
+    curl -X GET "https://api.dot.cf/v2/domain/search.xml\
+    ?domainname=test001.tk\
+    &email=john@smith.net\
+    &password=68bb651cb1\
+    &domaintype=PAID"
+    </textarea>
+</div>
+<img src="../images.v2/icon_output.png" alt="Output" width="25" height="25" class="api_icon" />
+<div class="code_box"> <span class="code_title">Response</span>
+    <textarea class="apitextarea" readonly rows=10 cols=90>
+    <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+    <dotcf>
+        <domain>
+            <domainname>TEST001.TK</domainname>
+            <domaintype>PAID</domaintype>
+            <pricing>
+                <currency>EUR</currency>
+                <partnerprice>16.91</partnerprice>
+                <period>2Y</period>
+                <retailprice>19.90</retailprice>
+            </pricing>
+            <pricing>
+                <currency>EUR</currency>
+                <partnerprice>21.04</partnerprice>
+                <period>3Y</period>
+                <retailprice>24.75</retailprice>
+            </pricing>
+            <pricing>
+                <currency>EUR</currency>
+                <partnerprice>27.03</partnerprice>
+                <period>4Y</period>
+                <retailprice>31.80</retailprice>
+            </pricing>
+            <pricing>
+                <currency>EUR</currency>
+                <partnerprice>21.25</partnerprice>
+                <period>5Y</period>
+                <retailprice>25.00</retailprice>
+            </pricing>
+            <pricing>
+                <currency>EUR</currency>
+                <partnerprice>53.17</partnerprice>
+                <period>9Y</period>
+                <retailprice>62.55</retailprice>
+            </pricing>
+            <pricing>
+                <currency>EUR</currency>
+                <partnerprice>42.46</partnerprice>
+                <period>10Y</period>
+                <retailprice>49.95</retailprice>
+            </pricing>
+            <pricing>
+                <currency>EUR</currency>
+                <partnerprice>8.46</partnerprice>
+                <period>1Y</period>
+                <retailprice>9.95</retailprice>
+            </pricing>
+            <status>AVAILABLE</status>
+        </domain>
+        <result>DOMAIN AVAILABLE</result>
+        <status>OK</status>
+    </dotcf>
+    </textarea>
+</div>
+<div class="clear"></div>
+<hr>
+<h3>Register a domain</h3>
+<img src="../images.v2/icon_syntax.png" alt="Input" width="25" height="25" class="api_icon" />
+<div class="code_text"><strong>URL: </strong>https://api.dot.cf/v2/domain/register<br />
+    <strong>Method:</strong> POST</div>
+<img src="../images.v2/icon_description.png" alt="Input" width="25" height="25" class="api_icon" />
+<div class="code_text"><strong>Description:</strong> Use this function to register a domain.</div>
+<div class="clear"></div>
+<span class="tabletitle">Parameters</span>
+<table width="95%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td width="18%" valign="top"><strong>Parameter</strong></td>
+        <td width="46%" valign="top"><strong>Description</strong></td>
+        <td width="18%" valign="top"><strong>Required</strong></td>
+        <td width="18%" valign="top"><strong>Multiple</strong></td>
+    </tr>
+    <tr>
+        <td valign="top">domainname</td>
+        <td valign="top">The name of the domain</td>
+        <td valign="top">Yes</td>
+        <td valign="top">No </td>
+    </tr>
+    <tr>
+        <td valign="top">period</td>
+        <td valign="top">The period of registration. If not given it will default to 1Y for paid domains and will default to 3M for free domains</td>
+        <td valign="top">No </td>
+        <td valign="top">No </td>
+    </tr>
+    <tr>
+        <td valign="top">forward_url</td>
+        <td valign="top">The URL the domain name should forward to</td>
+        <td valign="top">No* </td>
+        <td valign="top">No </td>
+    </tr>
+    <tr>
+        <td valign="top">nameserver</td>
+        <td valign="top">Nameserver to use. A minimum of 2 nameservers is required</td>
+        <td valign="top">No* </td>
+        <td valign="top">Yes</td>
+    </tr>
+    <tr>
+        <td valign="top">owner_id</td>
+        <td valign="top">Contact ID of domain owner</td>
+        <td valign="top">Yes**</td>
+        <td valign="top">No </td>
+    </tr>
+    <tr>
+        <td valign="top">billing_id</td>
+        <td valign="top">Contact ID of billing contact</td>
+        <td valign="top">No </td>
+        <td valign="top">No </td>
+    </tr>
+    <tr>
+        <td valign="top">tech_id</td>
+        <td valign="top">Contact ID of technical contact</td>
+        <td valign="top">No </td>
+        <td valign="top">No </td>
+    </tr>
+    <tr>
+        <td valign="top">admin_id</td>
+        <td valign="top">Contact ID of admin contact</td>
+        <td valign="top">No </td>
+        <td valign="top">No </td>
+    </tr>
+    <tr>
+        <td valign="top">email</td>
+        <td valign="top">E-mail address used for authentication</td>
+        <td valign="top">Yes</td>
+        <td valign="top">No </td>
+    </tr>
+    <tr>
+        <td valign="top">password</td>
+        <td valign="top">Password used for authentication</td>
+        <td valign="top">Yes</td>
+        <td valign="top">No </td>
+    </tr>
+    <tr>
+        <td valign="top">domaintype</td>
+        <td valign="top">The type of the domain: PAID or FREE</td>
+        <td valign="top">Yes</td>
+        <td valign="top">No</td>
+    </tr>
+    <tr>
+        <td valign="top">idshield</td>
+        <td valign="top">Identity protection parameter, possible values : enabled or disabled</td>
+        <td valign="top">No**</td>
+        <td valign="top">No</td>
+    </tr>
+</table>
+<p><br />
+    Notes:
+* forward_url and nameservers are mutual exclusive. Either the forward_url OR nameservers need to be specified. It is not possible to specify both. In case the nameserver is under the same domain, a glue record must be created for this domain. This can be done by registering Nameserver records. </p>
+<p> ** In case idshield is enabled owner_id doesn&apos;t need to be specified.</p>
+<span class="tabletitle">Returned properties</span>
+<table width="95%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td width="19%" valign="top"><strong>Property</strong></td>
+        <td width="63%" valign="top"><strong>Description</strong></td>
+        <td width="18%" valign="top"><strong>Type</strong></td>
+    </tr>
+    <tr>
+        <td valign="top">result</td>
+        <td valign="top">DOMAIN REGISTERED or NOT AVAILABLE </td>
+        <td valign="top">Both </td>
+    </tr>
+    <tr>
+        <td valign="top">domain</td>
+        <td valign="top">One or multiple hashes with result of domain name registration</td>
+        <td valign="top">Both </td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;currency</td>
+        <td valign="top">The currency for given prices</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;domainname</td>
+        <td valign="top">The domain name as requested</td>
+        <td valign="top">Both </td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;domaintype</td>
+        <td valign="top">The domaintype of the checked domainname</td>
+        <td valign="top">Both </td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;expirationdate</td>
+        <td valign="top">The date the domain will expire in YYYYMMDD</td>
+        <td valign="top">Both </td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;period</td>
+        <td valign="top">The registration period of the registered domainname</td>
+        <td valign="top">Both </td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;partnerprice</td>
+        <td valign="top">The amount to be paid by the reseller</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;retailprice</td>
+        <td valign="top">The amount to be paid by the enduser. (public price)</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;owner_id</td>
+        <td valign="top">Contact ID of domain owner</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;tech_id</td>
+        <td valign="top">Contact ID of technical contact</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;billing_id</td>
+        <td valign="top">Contact ID of billing contact</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;admin_id</td>
+        <td valign="top">Contact ID of administrative contact</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;status</td>
+        <td valign="top">REGISTERED or NOT AVAILABLE</td>
+        <td valign="top">Both </td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;authcode</td>
+        <td valign="top">Generated authorization code</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">status</td>
+        <td valign="top">OK </td>
+        <td valign="top">Both</td>
+    </tr>
+</table>
+<p>&nbsp;</p>
+<p><strong>Example:</strong> Registering a domain for 2 years with nameservers under the domain.</p>
+<img src="../images.v2/icon_input.png" alt="Input" width="25" height="25" class="api_icon" />
+<div class="code_box"><span class="code_title">Request</span>
+    <textarea class="apitextarea" readonly rows=9 cols=90>
+    curl -X POST https://api.dot.cf/v2/domain/register.xml\
+    -d "domainname=test001.tk\
+    &period=2Y\
+    &nameserver=ns1.test001.tk\
+    &nameserver=ns2.test001.tk\
+    &owner_id=JSMTH01\
+    &email=john@smith.net\
+    &password=68bb651cb1\
+    &domaintype=PAID
+    "
+    </textarea>
+</div>
+
+<img src="../images.v2/icon_output.png" alt="Output" width="25" height="25" class="api_icon" />
+<div class="code_box"> <span class="code_title">Response</span>
+    <textarea class="apitextarea" readonly rows=10 cols=90>
+    <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+    <dotcf>
+        <domain>
+            <domainname>TEST001.TK</domainname>
+            <domaintype>PAID</domaintype>
+            <period>2Y</period>
+            <currency>EUR</currency>
+            <retailprice>32.50</retailprice>
+            <partnerprice>15.60</partnerprice>
+            <expirationdate>20100711</expirationdate>
+            <owner_id>JSMTH01</owner_id>
+            <billing_id>JSMTH01</billing_id>
+            <admin_id>JSMTH01</admin_id>
+            <tech_id>JSMTH01</tech_id>
+            <authcode>88398480402849880</authcode>
+            <status>REGISTERED</status>
+        </domain>
+        <result>DOMAIN REGISTERED</result>
+        <status>OK</status>
+    </dotcf>
+    </textarea>
+</div>
+<div class="clear"></div><hr>
+<h3>Renew a domain name registration</h3>
+<img src="../images.v2/icon_syntax.png" alt="Input" width="25" height="25" class="api_icon" />
+<div class="code_text"><strong>URL: </strong>https://api.dot.cf/v2/domain/renew<br />
+    <strong>Method:</strong> POST</div>
+<img src="../images.v2/icon_description.png" alt="Input" width="25" height="25" class="api_icon" />
+<div class="code_text"><strong>Description:</strong> This function must be used to renew a domain registration.</div>
+<div class="clear"></div>
+<span class="tabletitle">Parameters</span>
+<table width="95%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td width="19%" valign="top"><strong>Parameter</strong></td>
+        <td width="44%" valign="top"><strong>Description</strong></td>
+        <td width="19%" valign="top"><strong>Required</strong></td>
+        <td width="18%" valign="top"><strong>Multiple</strong></td>
+    </tr>
+    <tr>
+        <td valign="top">domainname</td>
+        <td valign="top">The name of the domain</td>
+        <td valign="top">Yes</td>
+        <td valign="top">No </td>
+    </tr>
+    <tr>
+        <td valign="top">period</td>
+        <td valign="top">The period of registration. If not given it will default to 1Y for paid domains and will default to 3M for free domains</td>
+        <td valign="top">No </td>
+        <td valign="top">No </td>
+    </tr>
+    <tr>
+        <td valign="top">email</td>
+        <td valign="top">E-mail address used for authentication</td>
+        <td valign="top">Yes</td>
+        <td valign="top">No </td>
+    </tr>
+    <tr>
+        <td valign="top">password</td>
+        <td valign="top">Password used for authentication</td>
+        <td valign="top">Yes</td>
+        <td valign="top">No </td>
+    </tr>
+</table>
+
+<span class="tabletitle">Returned properties</span>
+<table width="95%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td width="19%" valign="top"><strong>Property</strong></td>
+        <td width="63%" valign="top"><strong>Description</strong></td>
+        <td width="18%" valign="top"><strong>Type</strong></td>
+    </tr>
+    <tr>
+        <td valign="top">result</td>
+        <td valign="top">DOMAIN RENEWED or NOT AVAILABLE</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">domain</td>
+        <td valign="top">One or multiplehashes with result of domain name renewal</td>
+        <td valign="top">Both </td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;currency</td>
+        <td valign="top">The currency for given prices</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;domainname</td>
+        <td valign="top">The domain name as requested</td>
+        <td valign="top">Both </td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;domaintype</td>
+        <td valign="top">The domaintype of the checked domainname</td>
+        <td valign="top">Both </td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;expirationdate</td>
+        <td valign="top">The date the domain will expire in YYYYMMDD</td>
+        <td valign="top">Both </td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;period</td>
+        <td valign="top">The registration period of the registered domainname</td>
+        <td valign="top">Both </td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;partnerprice</td>
+        <td valign="top">The amount to be paid by the reseller</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;retailprice</td>
+        <td valign="top">The amount to be paid by the enduser. (public price)</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;owner_id</td>
+        <td valign="top">Contact ID of domain owner</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;tech_id</td>
+        <td valign="top">Contact ID of technical contact</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;billing_id</td>
+        <td valign="top">Contact ID of billing contact</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;admin_id</td>
+        <td valign="top">Contact ID of administrative contact</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;status</td>
+        <td valign="top">RENEWED or NOT AVAILABLE</td>
+        <td valign="top">Both </td>
+    </tr>
+    <tr>
+        <td valign="top">status</td>
+        <td valign="top">OK </td>
+        <td valign="top">Both</td>
+    </tr>
+</table>
+<p>&nbsp;</p>
+<p><strong>Example:</strong> Renewal of paid domain TEST001.TK for three years.</p>
+<img src="../images.v2/icon_input.png" alt="Input" width="25" height="25" class="api_icon" />
+<div class="code_box"><span class="code_title">Request</span>
+    <textarea class="apitextarea" readonly rows=6 cols=90>
+    curl -X POST https://api.dot.cf/v2/domain/renew.xml\
+    -d "domainname=test001.tk\
+    &period=3Y\
+    &email=john@smith.net\
+    &password=68bb651cb1\
+    "
+    </textarea>
+</div>
+<img src="../images.v2/icon_output.png" alt="Output" width="25" height="25" class="api_icon" />
+<div class="code_box"> <span class="code_title">Response</span>
+    <textarea class="apitextarea" readonly rows=10 cols=90>
+    <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+    <dotcf>
+        <result>DOMAIN RENEWED</result>
+        <domain>
+            <domainname>TEST001.TK</domainname>
+            <domaintype>PAID</domaintype>
+            <period>3Y</period>
+            <currency>EUR</currency>
+            <retailprice>32.50</retailprice>
+            <partnerprice>15.60</partnerprice>
+            <expirationdate>20100711</expirationdate>
+            <owner_id>JSMTH01</owner_id>
+            <billing_id>JSMTH01</billing_id>
+            <admin_id>JSMTH01</admin_id>
+            <tech_id>JSMTH01</tech_id>
+            <status>RENEWED</status>
+        </domain>
+        <status>OK</status>
+    </dotcf>
+    </textarea>
+</div>
+<div class="clear"></div><hr>
+<h3>Get info on registered domain names</h3>
+<img src="../images.v2/icon_syntax.png" alt="Input" width="25" height="25" class="api_icon" />
+<div class="code_text"><strong>URL: </strong>https://api.dot.cf/v2/domain/getinfo<br />
+    <strong>Method: </strong>GET</div>
+<img src="../images.v2/icon_description.png" alt="Input" width="25" height="25" class="api_icon" />
+<div class="code_text"><strong>Description:</strong> Retrieve information about a domain registered by the requesting user.</div>
+<div class="clear"></div>
+<span class="tabletitle">Parameters</span>
+<table width="95%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td width="19%" valign="top"><strong>Parameter</strong></td>
+        <td width="44%" valign="top"><strong>Description</strong></td>
+        <td width="19%" valign="top"><strong>Required</strong></td>
+        <td width="18%" valign="top"><strong>Multiple</strong></td>
+    </tr>
+    <tr>
+        <td valign="top">domainname</td>
+        <td valign="top">The name of the domain</td>
+        <td valign="top">Yes</td>
+        <td valign="top">No </td>
+    </tr>
+    <tr>
+        <td valign="top">email</td>
+        <td valign="top">E-mail address used for authentication</td>
+        <td valign="top">Yes</td>
+        <td valign="top">No </td>
+    </tr>
+    <tr>
+        <td valign="top">password</td>
+        <td valign="top">Password used for authentication</td>
+        <td valign="top">Yes</td>
+        <td valign="top">No </td>
+    </tr>
+</table>
+
+<span class="tabletitle">Returned properties</span>
+<table width="95%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+    <td width="30%" valign="top"><strong>Property</strong></td>
+    <td width="60%" valign="top"><strong>Description</strong></td>
+    <td width="10%" valign="top"><strong>Type</strong></td>
+</tr>
+<tr>
+    <td valign="top">result</td>
+    <td valign="top">DOMAIN LISTED</td>
+    <td valign="top">Both</td>
+</tr>
+<tr>
+    <td valign="top">domain</td>
+    <td valign="top">One or multiple hashes with result of domain name search</td>
+    <td valign="top">Both</td>
+</tr>
+<tr>
+    <td valign="top">&emsp;domainname</td>
+    <td valign="top">The domain name as requested</td>
+    <td valign="top">Both</td>
+</tr>
+<tr>
+    <td valign="top">&emsp;domaintype</td>
+    <td valign="top">The domaintype of the checked domainname</td>
+    <td valign="top">Both</td>
+</tr>
+<tr>
+    <td valign="top">&emsp;expirationdate</td>
+    <td valign="top">The date the domain will expire in YYYYMMDD</td>
+    <td valign="top">Both</td>
+</tr>
+<tr>
+    <td valign="top">&emsp;authcode</td>
+    <td valign="top">The authorization code</td>
+    <td valign="top">Paid</td>
+</tr>
+<tr>
+    <td valign="top">&emsp;pricing</td>
+    <td valign="top">Multiple hashes with pricing info for domain name</td>
+    <td valign="top">Paid</td>
+</tr>
+<tr>
+    <td valign="top">&emsp;&emsp;currency</td>
+    <td valign="top">The currency for given prices</td>
+    <td valign="top">Paid</td>
+</tr>
+<tr>
+    <td valign="top">&emsp;&emsp;period</td>
+    <td valign="top">The registration period of the checked domainname</td>
+    <td valign="top">Paid</td>
+</tr>
+<tr>
+    <td valign="top">&emsp;&emsp;partnerprice</td>
+    <td valign="top">The amount to be paid by the reseller</td>
+    <td valign="top">Paid</td>
+</tr>
+<tr>
+    <td valign="top">&emsp;&emsp;retailprice</td>
+    <td valign="top">The amount to be paid by the enduser. (public price)</td>
+    <td valign="top">Paid</td>
+</tr>
+<tr>
+    <td valign="top">&emsp;status</td>
+    <td valign="top">ACTIVE or CANCELLED; Status of the domain</td>
+    <td valign="top">Both</td>
+</tr>
+<tr>
+    <td valign="top">&emsp;forward_url</td>
+    <td valign="top">The URL the domain name should forward to</td>
+    <td valign="top">Both</td>
+</tr>
+<tr>
+    <td valign="top">&emsp;nameserver</td>
+    <td valign="top">Zero or multiple hashes with nameserver info</td>
+    <td valign="top">Both</td>
+</tr>
+<tr>
+    <td valign="top">&emsp;&emsp;hostname</td>
+    <td valign="top">Hostname of nameserver</td>
+    <td valign="top">Both</td>
+</tr>
+<tr>
+    <td valign="top">&emsp;&emsp;ipaddress</td>
+    <td valign="top">IP address of nameserver if glue present</td>
+    <td valign="top">Both</td>
+</tr>
+<tr>
+    <td valign="top">&emsp;owner_contact</td>
+    <td valign="top">Hash containing contact data of owner</td>
+    <td valign="top">Paid</td>
+</tr>
+<tr>
+    <td valign="top">&emsp;&emsp;contact_id</td>
+    <td valign="top">Contact ID of owner contact</td>
+    <td valign="top">Paid</td>
+</tr>
+<tr>
+    <td valign="top">&emsp;&emsp;contact_title</td>
+    <td valign="top">Title of contact; Mr, Mrs, etc.</td>
+    <td valign="top">Paid</td>
+</tr>
+<tr>
+    <td valign="top">&emsp;&emsp;contact_firstname</td>
+    <td valign="top">Firstname of contact</td>
+    <td valign="top">Paid</td>
+</tr>
+<tr>
+    <td valign="top">&emsp;&emsp;contact_middlename</td>
+    <td valign="top">Middle name of owner contact</td>
+    <td valign="top">Paid</td>
+</tr>
+<tr>
+    <td valign="top">&emsp;&emsp;contact_lastname</td>
+    <td valign="top">Lastname of owner contact</td>
+    <td valign="top">Paid</td>
+</tr>
+<tr>
+    <td valign="top">&emsp;&emsp;contact_organization</td>
+    <td valign="top">Organization name of owner (if any) </td>
+    <td valign="top">Paid</td>
+</tr>
+<tr>
+    <td valign="top">&emsp;&emsp;contact_address</td>
+    <td valign="top">Address of owner contact</td>
+    <td valign="top">Paid</td>
+</tr>
+<tr>
+    <td valign="top">&emsp;&emsp;contact_city</td>
+    <td valign="top">City of owner contact </td>
+    <td valign="top">Paid</td>
+</tr>
+<tr>
+    <td valign="top">&emsp;&emsp;contact_zipcode</td>
+    <td valign="top">Zipcode of owner contact</td>
+    <td valign="top">Paid</td>
+</tr>
+<tr>
+    <td valign="top">&emsp;&emsp;contact_statecode</td>
+    <td valign="top">Statecode (ISO 3166-2) of owner contact</td>
+    <td valign="top">Paid</td>
+</tr>
+<tr>
+    <td valign="top">&emsp;&emsp;contact_countrycode</td>
+    <td valign="top">Countrycode (ISO 3166-1) of owner contact</td>
+    <td valign="top">Paid</td>
+</tr>
+<tr>
+    <td valign="top">&emsp;&emsp;contact_phone</td>
+    <td valign="top">Phone number of owner contact</td>
+    <td valign="top">Paid</td>
+</tr>
+<tr>
+    <td valign="top">&emsp;&emsp;contact_fax</td>
+    <td valign="top">Fax number of owner contact</td>
+    <td valign="top">Paid</td>
+</tr>
+<tr>
+    <td valign="top">&emsp;&emsp;contact_email</td>
+    <td valign="top">Email address of owner contact</td>
+    <td valign="top">Paid</td>
+</tr>
+<tr>
+    <td valign="top">&emsp;admin_contact</td>
+    <td valign="top">Hash containing contact data of admin</td>
+    <td valign="top">Paid</td>
+</tr>
+<tr>
+    <td valign="top">&emsp;&emsp;contact_id</td>
+    <td valign="top">Contact ID of admin contact</td>
+    <td valign="top">Paid</td>
+</tr>
+<tr>
+    <td valign="top">&emsp;&emsp;contact_title</td>
+    <td valign="top">Title of contact; Mr, Mrs, etc.</td>
+    <td valign="top">Paid</td>
+</tr>
+<tr>
+    <td valign="top">&emsp;&emsp;contact_firstname</td>
+    <td valign="top">Firstname of admin contact</td>
+    <td valign="top">Paid</td>
+</tr>
+<tr>
+    <td valign="top">&emsp;&emsp;contact_middlename</td>
+    <td valign="top">Middle name of admin contact</td>
+    <td valign="top">Paid</td>
+</tr>
+<tr>
+    <td valign="top">&emsp;&emsp;contact_lastname</td>
+    <td valign="top">Last name of admin contact</td>
+    <td valign="top">Paid</td>
+</tr>
+<tr>
+    <td valign="top">&emsp;&emsp;contact_organization</td>
+    <td valign="top">Organization name of admin (if any)</td>
+    <td valign="top">Paid</td>
+</tr>
+<tr>
+    <td valign="top">&emsp;&emsp;contact_address</td>
+    <td valign="top">Address of admin contact </td>
+    <td valign="top">Paid</td>
+</tr>
+<tr>
+    <td valign="top">&emsp;&emsp;contact_city</td>
+    <td valign="top">City of admin contact</td>
+    <td valign="top">Paid</td>
+</tr>
+<tr>
+    <td valign="top">&emsp;&emsp;contact_zipcode</td>
+    <td valign="top">Zipcode of admin contact</td>
+    <td valign="top">Paid</td>
+</tr>
+<tr>
+    <td valign="top">&emsp;&emsp;contact_statecode</td>
+    <td valign="top">Statecode (ISO 3166-2) of admin contact</td>
+    <td valign="top">Paid</td>
+</tr>
+<tr>
+    <td valign="top">&emsp;&emsp;contact_countrycode</td>
+    <td valign="top">Countrycode (ISO 3166-1) of admin contact </td>
+    <td valign="top">Paid</td>
+</tr>
+<tr>
+    <td valign="top">&emsp;&emsp;contact_phone</td>
+    <td valign="top">Phone number of admin contact </td>
+    <td valign="top">Paid</td>
+</tr>
+<tr>
+    <td valign="top">&emsp;&emsp;contact_fax</td>
+    <td valign="top">Fax number of admin contact </td>
+    <td valign="top">Paid</td>
+</tr>
+<tr>
+    <td valign="top">&emsp;&emsp;contact_email</td>
+    <td valign="top">Email address of admin contact </td>
+    <td valign="top">Paid</td>
+</tr>
+<tr>
+    <td valign="top">&emsp;tech_contact</td>
+    <td valign="top">Contact ID of tech contact</td>
+    <td valign="top">Paid</td>
+</tr>
+<tr>
+    <td valign="top">&emsp;&emsp;contact_id</td>
+    <td valign="top">Contact ID of tech contact </td>
+    <td valign="top">Paid</td>
+</tr>
+<tr>
+    <td valign="top">&emsp;&emsp;contact_title</td>
+    <td valign="top">Title of contact; Mr, Mrs, etc. </td>
+    <td valign="top">Paid</td>
+</tr>
+<tr>
+    <td valign="top">&emsp;&emsp;contact_firstname</td>
+    <td valign="top">Firstname of tech contact</td>
+    <td valign="top">Paid</td>
+</tr>
+<tr>
+    <td valign="top">&emsp;&emsp;contact_middlename</td>
+    <td valign="top">Middlename of tech contact</td>
+    <td valign="top">Paid</td>
+</tr>
+<tr>
+    <td valign="top">&emsp;&emsp;contact_lastname</td>
+    <td valign="top">Lastname of tech contact</td>
+    <td valign="top">Paid</td>
+</tr>
+<tr>
+    <td valign="top">&emsp;&emsp;contact_organization</td>
+    <td valign="top">Organization name of tech (if any)</td>
+    <td valign="top">Paid</td>
+</tr>
+<tr>
+    <td valign="top">&emsp;&emsp;contact_address</td>
+    <td valign="top">Address of tech contact </td>
+    <td valign="top">Paid</td>
+</tr>
+<tr>
+    <td valign="top">&emsp;&emsp;contact_city</td>
+    <td valign="top">City of tech contact</td>
+    <td valign="top">Paid</td>
+</tr>
+<tr>
+    <td valign="top">&emsp;&emsp;contact_zipcode</td>
+    <td valign="top">Zipcode of tech contact </td>
+    <td valign="top">Paid</td>
+</tr>
+<tr>
+    <td valign="top">&emsp;&emsp;contact_statecode</td>
+    <td valign="top">Statecode (ISO 3166-2) of tech contact</td>
+    <td valign="top">Paid</td>
+</tr>
+<tr>
+    <td valign="top">&emsp;&emsp;contact_countrycode</td>
+    <td valign="top">Countrycode (ISO 3166-1) of tech contact</td>
+    <td valign="top">Paid</td>
+</tr>
+<tr>
+    <td valign="top">&emsp;&emsp;contact_phone</td>
+    <td valign="top">Phone number of tech contact</td>
+    <td valign="top">Paid</td>
+</tr>
+<tr>
+    <td valign="top">&emsp;&emsp;contact_fax</td>
+    <td valign="top">Fax number of tech contact</td>
+    <td valign="top">Paid</td>
+</tr>
+<tr>
+    <td valign="top">&emsp;&emsp;contact_email</td>
+    <td valign="top">Email address of tech contact</td>
+    <td valign="top">Paid</td>
+</tr>
+<tr>
+    <td valign="top">&emsp;billing_contact</td>
+    <td valign="top">Hash containing contact data of billing contact</td>
+    <td valign="top">Paid</td>
+</tr>
+<tr>
+    <td valign="top">&emsp;&emsp;contact_id</td>
+    <td valign="top">Contact ID of billing contact</td>
+    <td valign="top">Paid</td>
+</tr>
+<tr>
+    <td valign="top">&emsp;&emsp;contact_title</td>
+    <td valign="top">Title of contact; Mr, Mrs, etc.</td>
+    <td valign="top">Paid</td>
+</tr>
+<tr>
+    <td valign="top">&emsp;&emsp;contact_firstname</td>
+    <td valign="top">Firstname of billing contact </td>
+    <td valign="top">Paid</td>
+</tr>
+<tr>
+    <td valign="top">&emsp;&emsp;contact_middlename</td>
+    <td valign="top">Middlename of billing contact</td>
+    <td valign="top">Paid</td>
+</tr>
+<tr>
+    <td valign="top">&emsp;&emsp;contact_lastname</td>
+    <td valign="top">Lastname of billing contact</td>
+    <td valign="top">Paid</td>
+</tr>
+<tr>
+    <td valign="top">&emsp;&emsp;contact_organization</td>
+    <td valign="top">Organization name of billing (if any)</td>
+    <td valign="top">Paid</td>
+</tr>
+<tr>
+    <td valign="top">&emsp;&emsp;contact_address</td>
+    <td valign="top">Address of billing contact</td>
+    <td valign="top">Paid</td>
+</tr>
+<tr>
+    <td valign="top">&emsp;&emsp;contact_city</td>
+    <td valign="top">City of billing contact</td>
+    <td valign="top">Paid</td>
+</tr>
+<tr>
+    <td valign="top">&emsp;&emsp;contact_zipcode</td>
+    <td valign="top">Zipcode of billing contact</td>
+    <td valign="top">Paid</td>
+</tr>
+<tr>
+    <td valign="top">&emsp;&emsp;contact_statecode</td>
+    <td valign="top">Statecode (ISO 3166-2) of billing contact</td>
+    <td valign="top">Paid</td>
+</tr>
+<tr>
+    <td valign="top">&emsp;&emsp;contact_countrycode</td>
+    <td valign="top">Countrycode (ISO 3166-1) of billing contact</td>
+    <td valign="top">Paid</td>
+</tr>
+<tr>
+    <td valign="top">&emsp;&emsp;contact_phone</td>
+    <td valign="top">Phone number of billing contact </td>
+    <td valign="top">Paid</td>
+</tr>
+<tr>
+    <td valign="top">&emsp;&emsp;contact_fax</td>
+    <td valign="top">Fax number of billing contact</td>
+    <td valign="top">Paid</td>
+</tr>
+<tr>
+    <td valign="top">&emsp;&emsp;contact_email</td>
+    <td valign="top">Email address of billing contact</td>
+    <td valign="top">Paid</td>
+</tr>
+<tr>
+    <td valign="top">status</td>
+    <td valign="top">OK </td>
+    <td valign="top">Both</td>
+</tr>
+</table>
+<p>&nbsp;</p>
+<p><strong>Example:</strong> Customer retrieves info on domain TEST002.TK.</p>
+<img src="../images.v2/icon_input.png" alt="Input" width="25" height="25" class="api_icon" />
+<div class="code_box"><span class="code_title">Request</span>
+    <textarea class="apitextarea" readonly rows=6 cols=90>
+    curl -X GET "https://api.dot.cf/v2/domain/getinfo.xml\
+    ?domainname=test002.tk\
+    &email=john@smith.net\
+    &password=68bb651cb1\
+    "
+    </textarea>
+</div>
+<img src="../images.v2/icon_output.png" alt="Output" width="25" height="25" class="api_icon" />
+<div class="code_box"> <span class="code_title">Response</span>
+    <textarea class="apitextarea" readonly rows=10 cols=90>
+    <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+    <dotcf>
+        <domain>
+            <status>ACTIVE</status>
+            <domaintype>PAID</domaintype>
+            <domainname>TEST002.TK</domainname>
+            <expirationdate>20150101</expirationdate>
+            <nameserver>
+                <hostname>NS1.EXAMPLE.COM</hostname>
+            </nameserver>
+            <nameserver>
+                <hostname>NS2.EXAMPLE.COM</hostname>
+            </nameserver>
+            <pricing>
+                <currency>YTL</currency>
+                <period>1Y</period>
+                <partnerprice>8.75</partnerprice>
+                <retailprice>12.50</retailprice>
+            </pricing>
+            <pricing>
+                <currency>YTL</currency>
+                <period>2Y</period>
+                <partnerprice>17.50</partnerprice>
+                <retailprice>25.00</retailprice>
+            </pricing>
+            <pricing>
+                <currency>YTL</currency>
+                <period>3Y</period>
+                <partnerprice>22.75</partnerprice>
+                <retailprice>32.50</retailprice>
+            </pricing>
+            <pricing>
+                <currency>YTL</currency>
+                <period>4Y</period>
+                <partnerprice>28.00</partnerprice>
+                <retailprice>40.00</retailprice>
+            </pricing>
+            <pricing>
+                <currency>YTL</currency>
+                <period>5Y</period>
+                <partnerprice>33.25</partnerprice>
+                <retailprice>47.50</retailprice>
+            </pricing>
+            <pricing>
+                <currency>YTL</currency>
+                <period>9Y</period>
+                <partnerprice>52.50</partnerprice>
+                <retailprice>75.00</retailprice>
+            </pricing>
+            <pricing>
+                <currency>YTL</currency>
+                <period>10Y</period>
+                <partnerprice>55.00</partnerprice>
+                <retailprice>80.00</retailprice>
+            </pricing>
+            <owner_contact>
+                <contact_id>8837012</contact_id>
+                <contact_title>Mr.</contact_title>
+                <contact_firstname>John</contact_firstname>
+                <contact_lastname>Smith</contact_lastname>
+                <contact_organization>A-Team</contact_organization>
+                <contact_address>Main Road 1</contact_address>
+                <contact_city>Los Angeles</contact_city>
+                <contact_zipcode>90001</contact_zipcode>
+                <contact_statecode>US-CA</contact_statecode>
+                <contact_countrycode>US</contact_countrycode>
+                <contact_phone>+1-310-123456</contact_phone>
+                <contact_email>hannibal@a-team.tk</contact_email>
+            </owner_contact>
+            <admin_contact>
+                <contact_id>8311112</contact_id>
+                <contact_title>Mr.</contact_title>
+                <contact_firstname>H.</contact_firstname>
+                <contact_lastname>Murdock</contact_lastname>
+                <contact_organization>A-Team</contact_organization>
+                <contact_address>Main Road 1</contact_address>
+                <contact_city>Los Angeles</contact_city>
+                <contact_zipcode>90001</contact_zipcode>
+                <contact_statecode>US-CA</contact_statecode>
+                <contact_countrycode>US</contact_countrycode>
+                <contact_phone>+1-310-123458</contact_phone>
+                <contact_fax></contact_fax>
+                <contact_email>murdock@a-team.tk<contact_email>
+            </admin_contact>
+            <tech_contact>
+                <contact_id>8112992</contact_id>
+                <contact_title>Mr.</contact_title>
+                <contact_firstname>Bosco</contact_firstname>
+                <contact_middlename>Albert</contact_middlename>
+                <contact_lastname>Baracus</contact_lastname>
+                <contact_organization>A-Team</contact_organization>
+                <contact_address>Main Road 1</contact_address>
+                <contact_city>Los Angeles</contact_city>
+                <contact_zipcode>90001</contact_zipcode>
+                <contact_statecode>US-CA</contact_statecode>
+                <contact_countrycode>US</contact_countrycode>
+                <contact_phone>+1-310-123457</contact_phone>
+                <contact_fax></contact_fax>
+                <contact_email>ba@a-team.tk</contact_email>
+            </tech_contact>
+            <billing_contact>
+                <contact_id>7837012</contact_id>
+                <contact_title>Mr.</contact_title>
+                <contact_firstname>Templeton</contact_firstname>
+                <contact_lastname>Peck</contact_lastname>
+                <contact_organization>A-Team</contact_organization>
+                <contact_address>Main Road 1</contact_address>
+                <contact_city>Los Angeles</contact_city>
+                <contact_zipcode>90001</contact_zipcode>
+                <contact_statecode>US-CA</contact_statecode>
+                <contact_countrycode>US</contact_countrycode>
+                <contact_phone>+1-310-123451</contact_phone>
+                <contact_fax></contact_fax>
+                <contact_email>face@a-team.tk</contact_email>
+            </billing_contact>
+        </domain>
+        <result>DOMAIN LISTED</result>
+        <status>OK</status>
+    </dotcf>
+    </textarea>
+</div>
+<div class="clear"></div><hr>
+<h3>Modifying a domain</h3>
+<img src="../images.v2/icon_syntax.png" alt="Input" width="25" height="25" class="api_icon" />
+<div class="code_text"><strong>URL:</strong> https://api.dot.cf/v2/domain/modify<br />
+    <strong>Method:</strong> PUT</div>
+<img src="../images.v2/icon_description.png" alt="Input" width="25" height="25" class="api_icon" />
+<div class="code_text"><strong>Description:</strong> If a domain&apos;s DNS settings or URL forwarding is to be updated, this function will offer functionality for that.</div>
+<div class="clear"></div>
+<span class="tabletitle">Parameters</span>
+<table width="95%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td width="18%" valign="top"><strong>Parameter</strong></td>
+        <td width="46%" valign="top"><strong>Description</strong></td>
+        <td width="18%" valign="top"><strong>Required</strong></td>
+        <td width="18%" valign="top"><strong>Multiple</strong></td>
+    </tr>
+    <tr>
+        <td valign="top">domainname</td>
+        <td valign="top">The name of the domain</td>
+        <td valign="top">Yes</td>
+        <td valign="top">No</td>
+    </tr>
+    <tr>
+        <td valign="top">forward_url</td>
+        <td valign="top">The URL the domain name should forward to</td>
+        <td valign="top">No*</td>
+        <td valign="top">No</td>
+    </tr>
+    <tr>
+        <td valign="top">nameserver</td>
+        <td valign="top">Nameserver to use. Minimally 2 are needed</td>
+        <td valign="top">No*</td>
+        <td valign="top">Yes</td>
+    </tr>
+    <tr>
+        <td valign="top">owner_id</td>
+        <td valign="top">Contact ID of domain owner</td>
+        <td valign="top">No</td>
+        <td valign="top">No</td>
+    </tr>
+    <tr>
+        <td valign="top">admin_id</td>
+        <td valign="top">Contact ID of administrative contact</td>
+        <td valign="top">No</td>
+        <td valign="top">No</td>
+    </tr>
+    <tr>
+        <td valign="top">tech_id</td>
+        <td valign="top">Contact ID of technical contact</td>
+        <td valign="top">No</td>
+        <td valign="top">No</td>
+    </tr>
+    <tr>
+        <td valign="top">billing_id</td>
+        <td valign="top">Contact ID of billing contact</td>
+        <td valign="top">No</td>
+        <td valign="top">No</td>
+    </tr>
+    <tr>
+        <td valign="top">email</td>
+        <td valign="top">E-mail address used for authentication</td>
+        <td valign="top">Yes</td>
+        <td valign="top">No</td>
+    </tr>
+    <tr>
+        <td valign="top">password</td>
+        <td valign="top">Password used for authentication</td>
+        <td valign="top">Yes</td>
+        <td valign="top">No</td>
+    </tr>
+    <tr>
+        <td valign="top">idshield</td>
+        <td valign="top">Identity protection parameter, possible values : enabled or disabled</td>
+        <td valign="top">No</td>
+        <td valign="top">No</td>
+    </tr>
+</table>
+<p>&nbsp;</p>
+<p>Notes:
+* forward_url and nameservers are mutual exclusive. Either the forward_url OR nameservers need to be specified. It is not possible to specify both. In case the nameserver is under the same domain, a glue record must be created for this domain. This can be done by registering Nameserver records.
+
+ 
+</p><p>&nbsp;</p>
+<span class="tabletitle">Returned properties</span>
+<table width="95%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td width="19%" valign="top"><strong>Property</strong></td>
+        <td width="63%" valign="top"><strong>Description</strong></td>
+        <td width="18%" valign="top"><strong>Type</strong></td>
+    </tr>
+    <tr>
+        <td valign="top">domain</td>
+        <td valign="top">One or multiple hashes with result of domain name modification</td>
+        <td valign="top">All</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;domainname</td>
+        <td valign="top">The requested domain name</td>
+        <td valign="top">All</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;status</td>
+        <td valign="top">MODIFIED</td>
+        <td valign="top">All</td>
+    </tr>
+    <tr>
+        <td valign="top">result</td>
+        <td valign="top">DOMAIN MODIFIED</td>
+        <td valign="top">All</td>
+    </tr>
+    <tr>
+        <td valign="top">status</td>
+        <td valign="top">OK </td>
+        <td valign="top">All</td>
+    </tr>
+</table>
+<p>&nbsp;</p>
+<p><strong>Example:</strong> Modify domain TEST002.TK, having it forward to http://www.freedomregistry.com/</p>
+<img src="../images.v2/icon_input.png" alt="Input" width="25" height="25" class="api_icon" />
+<div class="code_box"><span class="code_title">Request</span>
+    <textarea class="apitextarea" readonly rows=6 cols=90>
+    curl -X PUT https://api.dot.cf/v2/domain/modify.xml\
+    -d "domainname=test002.tk\
+    &forward_url=http%3A%2F%2Fwww.freedomregistry.com%2F\
+    &email=john@smith.net\
+    &password=68bb651cb1\
+    "
+    </textarea>
+</div>
+<img src="../images.v2/icon_output.png" alt="Output" width="25" height="25" class="api_icon" />
+<div class="code_box"> <span class="code_title">Response</span>
+    <textarea class="apitextarea" readonly rows=6 cols=90>
+    <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+    <dotcf>
+        <domain>
+            <domainname>TEST002.TK</domainname>
+            <status>MODIFIED</status>
+        </domain>
+        <status>OK</status>
+        <result>DOMAIN MODIFIED</result>
+    </dotcf>
+    </textarea>
+</div>
+<div class="clear"></div><hr>
+<h3>Deleting a domain</h3>
+<img src="../images.v2/icon_syntax.png" alt="Input" width="25" height="25" class="api_icon" />
+<div class="code_text"><strong>URL:</strong> https://api.dot.cf/v2/domain/delete<br />
+    <strong>Method:</strong> DELETE</div>
+<img src="../images.v2/icon_description.png" alt="Input" width="25" height="25" class="api_icon" />
+<div class="code_text"><strong>Description:</strong> This function will delete the domain from the account. The domain name will immediately be available to other registrants once it has been cancelled.</div>
+<div class="clear"></div>
+<span class="tabletitle">Parameters</span>
+<table width="95%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td width="19%" valign="top"><strong>Parameter</strong></td>
+        <td width="44%" valign="top"><strong>Description</strong></td>
+        <td width="19%" valign="top"><strong>Required</strong></td>
+        <td width="18%" valign="top"><strong>Multiple</strong></td>
+    </tr>
+    <tr>
+        <td valign="top">domainname</td>
+        <td valign="top">The name of the domain</td>
+        <td valign="top">Yes</td>
+        <td valign="top">No</td>
+    </tr>
+    <tr>
+        <td valign="top">email</td>
+        <td valign="top">E-mail address used for authentication</td>
+        <td valign="top">Yes</td>
+        <td valign="top">No</td>
+    </tr>
+    <tr>
+        <td valign="top">password</td>
+        <td valign="top">Password used for authentication</td>
+        <td valign="top">Yes</td>
+        <td valign="top">No</td>
+    </tr>
+</table>
+<p>&nbsp;</p>
+<span class="tabletitle">Returned properties</span>
+<table width="95%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td width="19%" valign="top"><strong>Property</strong></td>
+        <td width="63%" valign="top"><strong>Description</strong></td>
+        <td width="18%" valign="top"><strong>Type</strong></td>
+    </tr>
+    <tr>
+        <td valign="top">domain</td>
+        <td valign="top">One or multiple hashes with result of domain deletion</td>
+        <td valign="top">All</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;domainname</td>
+        <td valign="top">Domain name that was deleted</td>
+        <td valign="top">All</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;status</td>
+        <td valign="top">DELETED</td>
+        <td valign="top">All</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;result</td>
+        <td valign="top">DOMAIN DELETED </td>
+        <td valign="top">All</td>
+    </tr>
+    <tr>
+        <td valign="top">status</td>
+        <td valign="top">OK </td>
+        <td valign="top">All</td>
+    </tr>
+</table>
+<p>&nbsp;</p>
+<p><strong>Example:</strong> Delete TEST002.TK</p>
+<img src="../images.v2/icon_input.png" alt="Input" width="25" height="25" class="api_icon" />
+<div class="code_box"><span class="code_title">Request</span>
+    <textarea class="apitextarea" readonly rows=6 cols=90>
+    curl -X DELETE https://api.dot.cf/v2/domain/delete.xml\
+    -d "domainname=test002.tk\
+    &email=john@smith.net\
+    &password=68bb651cb1\
+    "</textarea>
+</div>
+<img src="../images.v2/icon_output.png" alt="Output" width="25" height="25" class="api_icon" />
+<div class="code_box"> <span class="code_title">Response</span>
+    <textarea class="apitextarea" readonly rows=6 cols=90>
+    <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+    <dotcf>
+        <domain>
+            <domainname>TEST002.TK</domainname>
+            <status>DELETED</status>
+        </domain>
+        <result>DOMAIN DELETED</result>
+        <status>OK</status>
+    </dotcf>
+    </textarea>
+</div>
+<div class="clear"></div>
+<hr>
+<h3>Restore a domain</h3>
+<img src="../images.v2/icon_syntax.png" alt="Input" width="25" height="25" class="api_icon" />
+<div class="code_text"><strong>URL:</strong> https://api.dot.cf/v2/domain/restore<br />
+    <strong>Method:</strong> POST</div>
+<img src="../images.v2/icon_description.png" alt="Input" width="25" height="25" class="api_icon" />
+<div class="code_text"><strong>Description:</strong> This function will restore a domain to the account if possible</div>
+<div class="clear"></div>
+<span class="tabletitle">Parameters</span>
+<table width="95%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td width="19%" valign="top"><strong>Parameter</strong></td>
+        <td width="44%" valign="top"><strong>Description</strong></td>
+        <td width="19%" valign="top"><strong>Required</strong></td>
+        <td width="18%" valign="top"><strong>Multiple</strong></td>
+    </tr>
+    <tr>
+        <td valign="top">domainname</td>
+        <td valign="top">The name of the domain</td>
+        <td valign="top">Yes</td>
+        <td valign="top">No</td>
+    </tr>
+    <tr>
+        <td valign="top">email</td>
+        <td valign="top">E-mail address used for authentication</td>
+        <td valign="top">Yes</td>
+        <td valign="top">No</td>
+    </tr>
+    <tr>
+        <td valign="top">password</td>
+        <td valign="top">Password used for authentication</td>
+        <td valign="top">Yes</td>
+        <td valign="top">No</td>
+    </tr>
+</table>
+<p>&nbsp;</p>
+<span class="tabletitle">Returned properties</span>
+<table width="95%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td width="19%" valign="top"><strong>Property</strong></td>
+        <td width="63%" valign="top"><strong>Description</strong></td>
+        <td width="18%" valign="top"><strong>Type</strong></td>
+    </tr>
+    <tr>
+        <td valign="top">domain</td>
+        <td valign="top">One or multiple hashes with result of domain restore</td>
+        <td valign="top">All</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;domainname</td>
+        <td valign="top">Domain name that was restored</td>
+        <td valign="top">All</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;result</td>
+        <td valign="top">DOMAIN RESTORED</td>
+        <td valign="top">All</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;status</td>
+        <td valign="top">RESTORED </td>
+        <td valign="top">All</td>
+    </tr>
+    <tr>
+        <td valign="top">status</td>
+        <td valign="top">OK </td>
+        <td valign="top">All</td>
+    </tr>
+</table>
+<p>&nbsp;</p>
+<p><strong>Example:</strong> </p>
+<img src="../images.v2/icon_input.png" alt="Input" width="25" height="25" class="api_icon" />
+<div class="code_box"><span class="code_title">Request</span>
+    <textarea class="apitextarea" readonly rows=6 cols=90>
+    curl -X POST https://api.dot.cf/v2/domain/restore.xml\
+    -d "domainname=test002.tk\
+    &email=john@smith.net\
+    &password=68bb651cb1\
+    "
+    </textarea>
+</div>
+<img src="../images.v2/icon_output.png" alt="Output" width="25" height="25" class="api_icon" />
+<div class="code_box"> <span class="code_title">Response</span>
+    <textarea class="apitextarea" readonly rows=6 cols=90>
+    <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+    <dotcf>
+        <domain>
+            <domainname>TEST002.TK</domainname>
+            <result>RESTORED</result>
+        </domain>
+        <result>DOMAIN RESTORED</result>
+        <status>OK</status>
+    </dotcf>
+    </textarea>
+</div>
+<div class="clear"></div>
+<hr>
+<h3>Upgrade a domain</h3>
+<img src="../images.v2/icon_syntax.png" alt="Input" width="25" height="25" class="api_icon" />
+<div class="code_text"><strong>URL:</strong> https://api.dot.cf/v2/domain/upgrade<br />
+    <strong>Method:</strong> POST</div>
+<img src="../images.v2/icon_description.png" alt="Input" width="25" height="25" class="api_icon" />
+<div class="code_text"><strong>Description:</strong> Upgrade a free domain to paid domain</div>
+<div class="clear"></div>
+<span class="tabletitle">Parameters</span>
+<table width="95%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td width="19%" valign="top"><strong>Parameter</strong></td>
+        <td width="44%" valign="top"><strong>Description</strong></td>
+        <td width="19%" valign="top"><strong>Required</strong></td>
+        <td width="18%" valign="top"><strong>Multiple</strong></td>
+    </tr>
+    <tr>
+        <td valign="top">domainname</td>
+        <td valign="top">The name of the domain</td>
+        <td valign="top">Yes</td>
+        <td valign="top">No</td>
+    </tr>
+    <tr>
+        <td valign="top">email</td>
+        <td valign="top">E-mail address used for authentication</td>
+        <td valign="top">Yes</td>
+        <td valign="top">No</td>
+    </tr>
+    <tr>
+        <td valign="top">password</td>
+        <td valign="top">Password used for authentication</td>
+        <td valign="top">Yes</td>
+        <td valign="top">No</td>
+    </tr>
+    <tr>
+        <td valign="top">owner_id</td>
+        <td valign="top">Contact ID of owner contact</td>
+        <td valign="top">No**</td>
+        <td valign="top">No</td>
+    </tr>
+    <tr>
+        <td valign="top">billing_id</td>
+        <td valign="top">Contact ID of billing contact</td>
+        <td valign="top">No</td>
+        <td valign="top">No</td>
+    </tr>
+    <tr>
+        <td valign="top">admin_id</td>
+        <td valign="top">Contact ID of admin contact</td>
+        <td valign="top">No</td>
+        <td valign="top">No</td>
+    </tr>
+    <tr>
+        <td valign="top">tech_id</td>
+        <td valign="top">Contact ID of technical contact</td>
+        <td valign="top">No</td>
+        <td valign="top">No</td>
+    </tr>
+    <tr>
+        <td valign="top">idshield</td>
+        <td valign="top">Identity protection parameter, possible values : enabled or disabled</td>
+        <td valign="top">No**</td>
+        <td valign="top">No</td>
+    </tr>
+    <tr>
+        <td valign="top">period</td>
+        <td valign="top">Number of years to add to domain expiration, after the domain has been upgraded.</td>
+        <td valign="top">Yes </td>
+        <td valign="top">Yes </td>
+    </tr>
+</table>
+<p> Notes: ** In case idshield is enabled owner_id doesn&apos;t need to be specified.</p>
+<span class="tabletitle">Returned properties</span>
+<table width="95%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td width="19%" valign="top"><strong>Property</strong></td>
+        <td width="63%" valign="top"><strong>Description</strong></td>
+        <td width="18%" valign="top"><strong>Type</strong></td>
+    </tr>
+    <tr>
+        <td valign="top">domain</td>
+        <td valign="top">One or multiple hashes with result of domain upgrade</td>
+        <td valign="top">All</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;domainname</td>
+        <td valign="top">Domain name that was upgraded</td>
+        <td valign="top">All</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;result</td>
+        <td valign="top">DOMAIN UPGRADED</td>
+        <td valign="top">All</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;status</td>
+        <td valign="top">UPGRADED </td>
+        <td valign="top">All</td>
+    </tr>
+    <tr>
+        <td valign="top">status</td>
+        <td valign="top">OK </td>
+        <td valign="top">All</td>
+    </tr>
+</table>
+<p>&nbsp;</p>
+<p><strong>Example:</strong> Upgrade a free domain to paid domain</p>
+<img src="../images.v2/icon_input.png" alt="Input" width="25" height="25" class="api_icon" />
+<div class="code_box"><span class="code_title">Request</span>
+    <textarea class="apitextarea" readonly rows=6 cols=90>
+    curl -X POST https://api.dot.cf/v2/domain/upgrade.xml\
+    -d "domainname=test002.tk\
+    &email=john@smith.net\
+    &password=68bb651cb1\
+    &owner_id=SMTH23\
+    &idshield=disabled
+    "
+    </textarea>
+</div>
+<img src="../images.v2/icon_output.png" alt="Output" width="25" height="25" class="api_icon" />
+<div class="code_box"> <span class="code_title">Response</span>
+    <textarea class="apitextarea" readonly rows=6 cols=90>
+    <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+    <dotcf>
+        <domain>
+            <domainname>TEST002.TK</domainname>
+            <result>UPGRADED</result>
+        </domain>
+        <result>DOMAIN UPGRADED</result>
+        <status>OK</status>
+    </dotcf>
+    </textarea>
+</div>
+<div class="clear"></div>
+<hr>
+<h3>List domains in account</h3>
+<img src="../images.v2/icon_syntax.png" alt="Input" width="25" height="25" class="api_icon" />
+<div class="code_text"><strong>URL:</strong> https://api.dot.cf/v2/domain/list<br />
+    <strong>Method:</strong> GET</div>
+<img src="../images.v2/icon_description.png" alt="Input" width="25" height="25" class="api_icon" />
+<div class="code_text"><strong>Description:</strong> Lists all domains under the account</div>
+<div class="clear"></div>
+<span class="tabletitle">Parameters</span>
+<table width="95%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td width="19%" valign="top"><strong>Parameter</strong></td>
+        <td width="44%" valign="top"><strong>Description</strong></td>
+        <td width="19%" valign="top"><strong>Required</strong></td>
+        <td width="18%" valign="top"><strong>Multiple</strong></td>
+    </tr>
+    <tr>
+        <td valign="top">pagenr</td>
+        <td valign="top">Page number of results. Defaults to 1</td>
+        <td valign="top">No</td>
+        <td valign="top">No</td>
+    </tr>
+    <tr>
+        <td valign="top">results_per_page</td>
+        <td valign="top">Number of results per page. Defaults to 25</td>
+        <td valign="top">No</td>
+        <td valign="top">No</td>
+    </tr>
+    <tr>
+        <td valign="top">email</td>
+        <td valign="top">E-mail address used for authentication</td>
+        <td valign="top">No</td>
+        <td valign="top">No</td>
+    </tr>
+    <tr>
+        <td valign="top">password</td>
+        <td valign="top">Password used for authentication</td>
+        <td valign="top">No</td>
+        <td valign="top">No</td>
+    </tr>
+</table>
+<p>&nbsp;</p>
+<span class="tabletitle">Returned properties</span>
+<table width="95%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td width="22%" valign="top"><strong>Property</strong></td>
+        <td width="60%" valign="top"><strong>Description</strong></td>
+        <td width="18%" valign="top"><strong>Type</strong></td>
+    </tr>
+    <tr>
+        <td valign="top">domain</td>
+        <td valign="top">One or multiple hashes with result of domain deletion</td>
+        <td valign="top">Both</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;domainname</td>
+        <td valign="top">The name of the domain</td>
+        <td valign="top">Both</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;domaintype</td>
+        <td valign="top">Type of the domain</td>
+        <td valign="top">Both </td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;registrationdate</td>
+        <td valign="top">The date the domain was registered in YYYYMMDD</td>
+        <td valign="top">Both </td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;expirationdate</td>
+        <td valign="top">The date the domain will expire in YYYYMMDD</td>
+        <td valign="top">Both </td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;status</td>
+        <td valign="top">ACTIVE or CANCELLED; Status of the domain </td>
+        <td valign="top">Both</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;authcode</td>
+        <td valign="top">The authorization code</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">result</td>
+        <td valign="top">&lt;nr&gt; DOMAINS FOUND</td>
+        <td valign="top">Both</td>
+    </tr>
+
+</table>
+<p>&nbsp;</p>
+<p><strong>Example:</strong> </p>
+<img src="../images.v2/icon_input.png" alt="Input" width="25" height="25" class="api_icon" />
+<div class="code_box"><span class="code_title">Request</span>
+    <textarea class="apitextarea" readonly rows=6 cols=90>
+    curl -X GET "https://api.dot.cf/v2/domain/list.xml\
+    ?email=john@smith.net\
+    &password=68bb651cb1\
+    "	</textarea>
+</div>
+<img src="../images.v2/icon_output.png" alt="Output" width="25" height="25" class="api_icon" />
+<div class="code_box"> <span class="code_title">Response</span>
+    <textarea class="apitextarea" readonly rows=6 cols=90>
+    <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+    <dotcf>
+        <domain>
+            <domainname>TEST001.TK</domainname>
+            <domaintype>FREE</domaintype>
+            <registrationdate>2013-03-11</expirationdate>
+                <expirationdate>2014-03-11</expirationdate>
+                <status>ACTIVE</status>
+        </domain>
+        <domain>
+            <domainname>TEST003.COM</domainname>
+            <domaintype>PAID</domaintype>
+            <registrationdate>2013-01-11</expirationdate>
+                <expirationdate>2014-01-11</expirationdate>
+                <authcode>88djjkJLl1</authcode>
+                <status>ACTIVE</status>
+        </domain>
+        <result>2 DOMAINS FOUND</result>
+    </dotcf>
+    </textarea>
+</div>
+<div class="clear"></div><hr>
+<h3>Register or modify a nameserver glue record</h3>
+<img src="../images.v2/icon_syntax.png" alt="Input" width="25" height="25" class="api_icon" />
+<div class="code_text"><strong>URL:</strong> https://api.dot.cf/v2/nameserver/register<br />
+    <strong>Method:</strong> PUT</div>
+<img src="../images.v2/icon_description.png" alt="Input" width="25" height="25" class="api_icon" />
+<div class="code_text"><strong>Description:</strong> When the domain&apos;s DNS is managed by custom nameservers and the nameservers are under the domain, nameserver glue records are required to get the domain working. Nameserver glue records can be registered using this function.</div>
+<div class="clear"></div>
+<span class="tabletitle">Parameters</span>
+<table width="95%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td width="19%" valign="top"><strong>Parameter</strong></td>
+        <td width="44%" valign="top"><strong>Description</strong></td>
+        <td width="19%" valign="top"><strong>Required</strong></td>
+        <td width="18%" valign="top"><strong>Multiple</strong></td>
+    </tr>
+    <tr>
+        <td valign="top">domainname</td>
+        <td valign="top">Domain name of glue record</td>
+        <td valign="top">Yes</td>
+        <td valign="top">No</td>
+    </tr>
+    <tr>
+        <td valign="top">hostname</td>
+        <td valign="top">Domain name of glue record</td>
+        <td valign="top">Yes</td>
+        <td valign="top">No</td>
+    </tr>
+    <tr>
+        <td valign="top">ipaddress</td>
+        <td valign="top">Value of DNS record </td>
+        <td valign="top">Yes</td>
+        <td valign="top">No</td>
+    </tr>
+    <tr>
+        <td valign="top">email</td>
+        <td valign="top">E-mail address used for authentication</td>
+        <td valign="top">Yes</td>
+        <td valign="top">No</td>
+    </tr>
+    <tr>
+        <td valign="top">password</td>
+        <td valign="top">Password used for authentication</td>
+        <td valign="top">Yes</td>
+        <td valign="top">No</td>
+    </tr>
+</table>
+<p>&nbsp;</p>
+
+<span class="tabletitle">Returned properties</span>
+<table width="95%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td width="19%" valign="top"><strong>Property</strong></td>
+        <td width="63%" valign="top"><strong>Description</strong></td>
+        <td width="18%" valign="top"><strong>Type</strong></td>
+    </tr>
+    <tr>
+        <td valign="top">result</td>
+        <td valign="top">NAMESERVER REGISTERED or NAMESERVER UPDATED</td>
+        <td valign="top">All </td>
+    </tr>
+    <tr>
+        <td valign="top">nameserver</td>
+        <td valign="top">One or multiple hashes with result of nameserver registration </td>
+        <td valign="top">All </td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;domainname</td>
+        <td valign="top">Domain name of zone to add DNS record</td>
+        <td valign="top">All </td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;hostname</td>
+        <td valign="top">The hostname of the glue record</td>
+        <td valign="top">All </td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;ipaddress</td>
+        <td valign="top">The IP address of the glue record</td>
+        <td valign="top">All </td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;status</td>
+        <td valign="top">REGISTERED or UPDATED</td>
+        <td valign="top">All </td>
+    </tr>
+    <tr>
+        <td valign="top">status</td>
+        <td valign="top">OK </td>
+        <td valign="top">All</td>
+    </tr>
+</table>
+<p>&nbsp;</p>
+<p><strong>Example:</strong> Register a nameserver glue for TEST002.TK</p>
+<img src="../images.v2/icon_input.png" alt="Input" width="25" height="25" class="api_icon" />
+<div class="code_box"><span class="code_title">Request</span>
+    <textarea class="apitextarea" readonly rows=7 cols=90>
+    curl -X PUT https://api.dot.cf/v2/nameserver/register.xml\
+    -d "domainname=test002.tk\
+    &hostname=ns1.test002.tk\
+    &ipaddress=192.168.1.2\
+    &email=john@smith.net\
+    &password=68bb651cb1\
+    "
+    </textarea>
+</div>
+<img src="../images.v2/icon_output.png" alt="Output" width="25" height="25" class="api_icon" />
+<div class="code_box"> <span class="code_title">Response</span>
+    <textarea class="apitextarea" readonly rows=8 cols=90>
+    <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+    <dotcf>
+        <nameserver>
+            <domainname>TEST002.TK</domainname>
+            <hostname>NS1.TEST002.TK</hostname>
+            <ipaddress>192.168.1.2</ipaddress>
+            <status>REGISTERED</status>
+        </nameserver>
+        <result>NAMESERVER REGISTERED</result>
+        <status>OK</status>
+    </dotcf>
+    </textarea>
+</div>
+<div class="clear"></div><hr>
+<h3>Deleting a nameserver glue record</h3>
+<img src="../images.v2/icon_syntax.png" alt="Input" width="25" height="25" class="api_icon" />
+<div class="code_text"><strong>URL:</strong> https://api.dot.cf/v2/nameserver/delete<br />
+    <strong>Method:</strong> DELETE</div>
+<img src="../images.v2/icon_description.png" alt="Input" width="25" height="25" class="api_icon" />
+<div class="code_text"><strong>Description:</strong> Nameserver glue records registered via the nameserver/register method can be deleted via this function. nameservers are under the domain, nameserver glue records are required to get the domain working. Nameserver glue records can be registered using this function.</div>
+<div class="clear"></div>
+<span class="tabletitle">Parameters</span>
+<table width="95%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td width="19%" valign="top"><strong>Parameter</strong></td>
+        <td width="44%" valign="top"><strong>Description</strong></td>
+        <td width="19%" valign="top"><strong>Required</strong></td>
+        <td width="18%" valign="top"><strong>Multiple</strong></td>
+    </tr>
+    <tr>
+        <td valign="top">domainname</td>
+        <td valign="top">Domain name of glue record</td>
+        <td valign="top">Yes</td>
+        <td valign="top">No</td>
+    </tr>
+    <tr>
+        <td valign="top">hostname</td>
+        <td valign="top">The hostname to delete</td>
+        <td valign="top">Yes</td>
+        <td valign="top">No</td>
+    </tr>
+    <tr>
+        <td valign="top">email</td>
+        <td valign="top">E-mail address used for authentication</td>
+        <td valign="top">Yes</td>
+        <td valign="top">No</td>
+    </tr>
+    <tr>
+        <td valign="top">password</td>
+        <td valign="top">Password used for authentication</td>
+        <td valign="top">Yes</td>
+        <td valign="top">No</td>
+    </tr>
+</table>
+<p>&nbsp;</p>
+
+<span class="tabletitle">Returned properties</span>
+<table width="95%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td width="19%" valign="top"><strong>Property</strong></td>
+        <td width="63%" valign="top"><strong>Description</strong></td>
+        <td width="18%" valign="top"><strong>Type</strong></td>
+    </tr>
+    <tr>
+        <td valign="top">result</td>
+        <td valign="top">NAMESERVER DELETED</td>
+        <td valign="top">All</td>
+    </tr>
+    <tr>
+        <td valign="top">nameserver</td>
+        <td valign="top">One or multiple hashes with result of nameserver delete</td>
+        <td valign="top">All</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;domainname</td>
+        <td valign="top">Domain name of zone</td>
+        <td valign="top">All</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;hostname</td>
+        <td valign="top">The nameserver that was deleted</td>
+        <td valign="top">All</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;status</td>
+        <td valign="top">DELETED</td>
+        <td valign="top">All</td>
+    </tr>
+    <tr>
+        <td valign="top">status</td>
+        <td valign="top">OK </td>
+        <td valign="top">All</td>
+    </tr>
+</table>
+<p>&nbsp;</p>
+<p><strong>Example:</strong> Register a nameserver glue for TEST002.TK</p>
+<img src="../images.v2/icon_input.png" alt="Input" width="25" height="25" class="api_icon" />
+<div class="code_box"><span class="code_title">Request</span>
+    <textarea class="apitextarea" readonly rows=6 cols=90>
+    curl -X DELETE https://api.dot.cf/v2/nameserver/delete.xml\
+    -d "domainname=test002.tk\
+    &hostname=ns1.test002.tk\
+    &email=john@smith.net\
+    &password=68bb651cb1\
+    "
+    </textarea>
+</div>
+<img src="../images.v2/icon_output.png" alt="Output" width="25" height="25" class="api_icon" />
+<div class="code_box"> <span class="code_title">Response</span>
+    <textarea class="apitextarea" readonly rows=7 cols=90>
+    <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+    <dotcf>
+        <nameserver>
+            <domainname>TEST002.TK</domainname>
+            <hostname>NS1.TEST002.TK</hostname>
+            <status>DELETED</status>
+        </nameserver>
+        <result>NAMESERVER DELETED</result>
+        <status>OK</status>
+    </dotcf>
+    </textarea>
+</div>
+<div class="clear"></div><hr>
+<h3>Listing nameserver glue records under a domain</h3>
+<img src="../images.v2/icon_syntax.png" alt="Input" width="25" height="25" class="api_icon" />
+<div class="code_text"><strong>URL:</strong> https://api.dot.cf/v2/nameserver/list<br />
+    <strong>Method:</strong> GET</div>
+<img src="../images.v2/icon_description.png" alt="Input" width="25" height="25" class="api_icon" />
+<div class="code_text"><strong>Description:</strong> This function is used to retrieve a list of nameserver glue records registered under a domain name.</div>
+<div class="clear"></div>
+<span class="tabletitle">Parameters</span>
+<table width="95%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td width="18%" valign="top"><strong>Parameter</strong></td>
+        <td width="46%" valign="top"><strong>Description</strong></td>
+        <td width="18%" valign="top"><strong>Required</strong></td>
+        <td width="18%" valign="top"><strong>Multiple</strong></td>
+    </tr>
+    <tr>
+        <td valign="top">domainname</td>
+        <td valign="top">The domain name to list nameserver glue for</td>
+        <td valign="top">Yes</td>
+        <td valign="top">No</td>
+    </tr>
+    <tr>
+        <td valign="top">email</td>
+        <td valign="top">E-mail address used for authentication</td>
+        <td valign="top">Yes</td>
+        <td valign="top">No</td>
+    </tr>
+    <tr>
+        <td valign="top">password</td>
+        <td valign="top">Password used for authentication</td>
+        <td valign="top">Yes</td>
+        <td valign="top">No</td>
+    </tr>
+</table>
+<p>&nbsp;</p>
+
+<span class="tabletitle">Returned properties</span>
+<table width="95%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td width="19%" valign="top"><strong>Property</strong></td>
+        <td width="63%" valign="top"><strong>Description</strong></td>
+        <td width="18%" valign="top"><strong>Type</strong></td>
+    </tr>
+    <tr>
+        <td valign="top">result</td>
+        <td valign="top"><nr >ENTRIES - number of entries found</td>
+        <td valign="top">All </td>
+    </tr>
+    <tr>
+        <td valign="top">nameserver</td>
+        <td valign="top">Name for DNS record</td>
+        <td valign="top">All </td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;domainname</td>
+        <td valign="top">The requested domain name</td>
+        <td valign="top">All </td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;hostname</td>
+        <td valign="top">Value for DNS record</td>
+        <td valign="top">All </td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;ipaddress</td>
+        <td valign="top">IP addres linked to the nameserver host</td>
+        <td valign="top">All </td>
+    </tr>
+    <tr>
+        <td valign="top">status</td>
+        <td valign="top">OK </td>
+        <td valign="top">All</td>
+    </tr>
+</table>
+<p>&nbsp;</p>
+<p><strong>Example:</strong> Requesting the DNS names registered under TEST002.TK</p>
+<img src="../images.v2/icon_input.png" alt="Input" width="25" height="25" class="api_icon" />
+<div class="code_box"><span class="code_title">Request</span>
+    <textarea class="apitextarea" readonly rows=5 cols=90>
+    curl -X GET "https://api.dot.cf/v2/nameserver/list.xml\
+    ?domainname=test002.tk\
+    &email=john@smith.net\
+    &password=68bb651cb1\
+    "
+    </textarea>
+</div>
+<img src="../images.v2/icon_output.png" alt="Output" width="25" height="25" class="api_icon" />
+<div class="code_box"> <span class="code_title">Response</span>
+    <textarea class="apitextarea" readonly rows=10 cols=90>
+    <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+    <dotcf>
+        <result>2 ENTRIES</status>
+            <nameserver>
+                <hostname>NS2.TEST002.TK</hostname>
+                <ipaddress>50.1.2.3</ipaddress>
+                <domainname>TEST002.TK</domainname>
+            </nameserver>
+            <nameserver>
+                <hostname>NS1.TEST002.TK</hostname>
+                <ipaddress>192.168.1.2</ipaddress>
+                <domainname>TEST002.TK</domainname>
+            </nameserver>
+            <status>OK</status>
+    </dotcf>
+    </textarea>
+</div>
+<div class="clear"></div> <hr><p>&nbsp;</p>
+<h2>Functions related to contact management</h2>
+<p>&nbsp;</p>
+<h3>Create or Modify contact</h3>
+<img src="../images.v2/icon_syntax.png" alt="Input" width="25" height="25" class="api_icon" />
+<div class="code_text"><strong>URL:</strong> https://api.dot.cf/v2/contact/register<br />
+    <strong>Method:</strong> PUT</div>
+<img src="../images.v2/icon_description.png" alt="Input" width="25" height="25" class="api_icon" />
+<div class="code_text"><strong>Description:</strong> Creating a new contact can be done with this function. The contact is not linked to any domain after being created; this needs to be done by new domain registration or modification.</div>
+<div class="clear"></div>
+<span class="tabletitle">Parameters</span>
+<table width="95%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td width="19%" valign="top"><strong>Parameter</strong></td>
+        <td width="44%" valign="top"><strong>Description</strong></td>
+        <td width="19%" valign="top"><strong>Required</strong></td>
+        <td width="18%" valign="top"><strong>Multiple</strong></td>
+    </tr>
+    <tr>
+        <td valign="top">contact_organization</td>
+        <td valign="top">Organization name of contact</td>
+        <td valign="top">No</td>
+        <td valign="top">No</td>
+    </tr>
+    <tr>
+        <td valign="top">contact_title</td>
+        <td valign="top">Title of the contact</td>
+        <td valign="top">No</td>
+        <td valign="top">No</td>
+    </tr>
+    <tr>
+        <td valign="top">contact_firstname</td>
+        <td valign="top">First name of contact</td>
+        <td valign="top">Yes</td>
+        <td valign="top">No</td>
+    </tr>
+    <tr>
+        <td valign="top">contact_middlename</td>
+        <td valign="top">Middle name of contact</td>
+        <td valign="top">No</td>
+        <td valign="top">No</td>
+    </tr>
+    <tr>
+        <td valign="top">contact_lastname</td>
+        <td valign="top">Last name of contact</td>
+        <td valign="top">Yes</td>
+        <td valign="top">No</td>
+    </tr>
+    <tr>
+        <td valign="top">contact_address</td>
+        <td valign="top">Address of the contact</td>
+        <td valign="top">Yes</td>
+        <td valign="top">No</td>
+    </tr>
+    <tr>
+        <td valign="top">contact_city</td>
+        <td valign="top">City of the contact</td>
+        <td valign="top">Yes</td>
+        <td valign="top">No</td>
+    </tr>
+    <tr>
+        <td valign="top">contact_zipcode</td>
+        <td valign="top">Zipcode of the contact</td>
+        <td valign="top">Yes</td>
+        <td valign="top">No</td>
+    </tr>
+    <tr>
+        <td valign="top">contact_statecode</td>
+        <td valign="top">ISO-3166 code for state</td>
+        <td valign="top">Yes</td>
+        <td valign="top">No</td>
+    </tr>
+    <tr>
+        <td valign="top">contact_countrycode</td>
+        <td valign="top">ISO-3166 code for country</td>
+        <td valign="top">Yes</td>
+        <td valign="top">No</td>
+    </tr>
+    <tr>
+        <td valign="top">contact_phone</td>
+        <td valign="top">Phone number of contact (international format)</td>
+        <td valign="top">Yes</td>
+        <td valign="top">No</td>
+    </tr>
+    <tr>
+        <td valign="top">contact_fax</td>
+        <td valign="top">Fax number of contact (international format)</td>
+        <td valign="top">No</td>
+        <td valign="top">No</td>
+    </tr>
+    <tr>
+        <td valign="top">contact_email</td>
+        <td valign="top">Email address of contact</td>
+        <td valign="top">Yes</td>
+        <td valign="top">No</td>
+    </tr>
+    <tr>
+        <td valign="top">contact_id</td>
+        <td valign="top">ID of existing contact</td>
+        <td valign="top">No</td>
+        <td valign="top">No</td>
+    </tr>
+    <tr>
+        <td valign="top">email</td>
+        <td valign="top">E-mail address used for authentication</td>
+        <td valign="top">Yes</td>
+        <td valign="top">No</td>
+    </tr>
+    <tr>
+        <td valign="top">password</td>
+        <td valign="top">Password used for authentication</td>
+        <td valign="top">Yes</td>
+        <td valign="top">No</td>
+    </tr>
+</table>
+<p>&nbsp;</p>
+
+<span class="tabletitle">Returned properties</span>
+<table width="95%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td width="19%" valign="top"><strong>Property</strong></td>
+        <td width="63%" valign="top"><strong>Description</strong></td>
+        <td width="18%" valign="top"><strong>Type</strong></td>
+    </tr>
+    <tr>
+        <td valign="top">result</td>
+        <td valign="top">CONTACT REGISTERED / CONTACT UPDATED</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">contact</td>
+        <td valign="top">One or multiple hashes with contacts affected</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;contact_id</td>
+        <td valign="top">ID of the registered or updated contact</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;status</td>
+        <td valign="top">REGISTERED / UPDATED</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">status</td>
+        <td valign="top">OK </td>
+        <td valign="top">Paid</td>
+    </tr>
+</table>
+<p>&nbsp;</p>
+<p><strong>Example:</strong> Register Contact</p>
+<img src="../images.v2/icon_input.png" alt="Input" width="25" height="25" class="api_icon" />
+<div class="code_box"><span class="code_title">Request</span>
+    <textarea class="apitextarea" readonly rows=10 cols=90>
+    curl -X PUT https://api.dot.cf/v2/contact/register.xml\
+    -d "contact_firstname=John\
+    &contact_lastname=Smith\
+    &contact_organization=A-Team\
+    &contact_address=Main Road 1\
+    &contact_city=Los Angeles\
+    &contact_zipcode=90001\
+    &contact_statecode=US-CA\
+    &contact_countrycode=US\
+    &contact_phone=+1-310-123456\
+    &contact_email=hannibal@a-team.tk\
+    &email=john@smith.net\
+    &password=68bb651cb1\
+    </textarea>
+</div>
+<img src="../images.v2/icon_output.png" alt="Output" width="25" height="25" class="api_icon" />
+<div class="code_box"> <span class="code_title">Response</span>
+    <textarea class="apitextarea" readonly rows=6 cols=90>
+    <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+    <dotcf>
+        <contact>
+            <contact_id>8837012</contact_id>
+            <status>REGISTERED</status>
+        </contact>
+        <result>CONTACT REGISTERED</result>
+        <status>OK</status>
+    </dotcf>
+    </textarea>
+</div>
+
+<p>&nbsp;</p><div class="clear"></div><hr>
+<h3>Delete contact</h3>
+<img src="../images.v2/icon_syntax.png" alt="Input" width="25" height="25" class="api_icon" />
+<div class="code_text"><strong>URL:</strong> https://api.dot.cf/v2/contact/delete<br />
+    <strong>Method:</strong> DELETE</div>
+<img src="../images.v2/icon_description.png" alt="Input" width="25" height="25" class="api_icon" />
+<div class="code_text"><strong>Description:</strong> Deleting a new contact can be done with this function. Contacts can only be deleted if they are not linked to any domain.</div>
+<div class="clear"></div>
+<span class="tabletitle">Parameters</span>
+<table width="95%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td width="19%" valign="top"><strong>Parameter</strong></td>
+        <td width="44%" valign="top"><strong>Description</strong></td>
+        <td width="19%" valign="top"><strong>Required</strong></td>
+        <td width="18%" valign="top"><strong>Multiple</strong></td>
+    </tr>
+    <tr>
+        <td valign="top">contact_id</td>
+        <td valign="top">ID of contact</td>
+        <td valign="top">Yes</td>
+        <td valign="top">No</td>
+    </tr>
+    <tr>
+        <td valign="top">email</td>
+        <td valign="top">E-mail address used for authentication</td>
+        <td valign="top">Yes</td>
+        <td valign="top">No</td>
+    </tr>
+    <tr>
+        <td valign="top">password</td>
+        <td valign="top">Password used for authentication</td>
+        <td valign="top">Yes</td>
+        <td valign="top">No</td>
+    </tr>
+</table>
+<p>&nbsp;</p>
+
+<span class="tabletitle">Returned properties</span>
+<table width="95%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td width="19%" valign="top"><strong>Property</strong></td>
+        <td width="63%" valign="top"><strong>Description</strong></td>
+        <td width="18%" valign="top"><strong>Type</strong></td>
+    </tr>
+    <tr>
+        <td valign="top">result</td>
+        <td valign="top">CONTACT DELETED</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">contact</td>
+        <td valign="top">One or multiple hashes with contacts affected</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;contact_id</td>
+        <td valign="top">ID of the deleted</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;status</td>
+        <td valign="top">DELETED</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">status</td>
+        <td valign="top">OK </td>
+        <td valign="top">Paid</td>
+    </tr>
+</table>
+<p>&nbsp;</p>
+<p><strong>Example:</strong> Delete Contact</p>
+<img src="../images.v2/icon_input.png" alt="Input" width="25" height="25" class="api_icon" />
+<div class="code_box"><span class="code_title">Request</span>
+    <textarea class="apitextarea" readonly rows=5 cols=90>
+    curl -X DELETE https://api.dot.cf/v2/contact/delete.xml\
+    -d "contact_id=8837012\
+    &email=john@smith.net\
+    &password=68bb651cb1\
+    "
+    </textarea>
+</div>
+<img src="../images.v2/icon_output.png" alt="Output" width="25" height="25" class="api_icon" />
+<div class="code_box"> <span class="code_title">Response</span>
+    <textarea class="apitextarea" readonly rows=6 cols=90>
+    <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+    <dotcf>
+        <contact>
+            <contact_id>8837012</contact_id>
+            <status>DELETED</status>
+        </contact>
+        <result>CONTACT DELETED</status>
+            <status>OK</status>
+    </dotcf>
+    </textarea>
+</div>
+<p>&nbsp;</p><div class="clear"></div><hr>
+<h3>Get info on specific contacts</h3>
+<img src="../images.v2/icon_syntax.png" alt="Input" width="25" height="25" class="api_icon" />
+<div class="code_text"><strong>URL:</strong> https://api.dot.cf/v2/contact/getinfo<br />
+    <strong>Method:</strong> GET</div>
+<img src="../images.v2/icon_description.png" alt="Input" width="25" height="25" class="api_icon" />
+<div class="code_text"><strong>Description:</strong> List details of contacts under user account.</div>
+<div class="clear"></div>
+<span class="tabletitle">Parameters</span>
+<table width="95%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td width="19%" valign="top"><strong>Parameter</strong></td>
+        <td width="44%" valign="top"><strong>Description</strong></td>
+        <td width="19%" valign="top"><strong>Required</strong></td>
+        <td width="18%" valign="top"><strong>Multiple</strong></td>
+    </tr>
+    <tr>
+        <td valign="top">contact_id</td>
+        <td valign="top">One or more contact id to get info on</td>
+        <td valign="top">Yes</td>
+        <td valign="top">Yes</td>
+    </tr>
+    <tr>
+        <td valign="top">email</td>
+        <td valign="top">E-mail address used for authentication</td>
+        <td valign="top">Yes</td>
+        <td valign="top">No</td>
+    </tr>
+    <tr>
+        <td valign="top">password</td>
+        <td valign="top">Password used for authentication</td>
+        <td valign="top">Yes</td>
+        <td valign="top">No</td>
+    </tr>
+</table>
+<p>&nbsp;</p>
+
+<span class="tabletitle">Returned properties</span>
+<table width="95%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td width="26%" valign="top"><strong>Property</strong></td>
+        <td width="54%" valign="top"><strong>Description</strong></td>
+        <td width="18%" valign="top"><strong>Type</strong></td>
+    </tr>
+    <tr>
+        <td valign="top">result</td>
+        <td valign="top">CONTACTS LISTED</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">contact</td>
+        <td valign="top">Array of one or multiple contacts </td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;contact_id</td>
+        <td valign="top">ID of contact</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;contact_title</td>
+        <td valign="top">Title of the contact </td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;contact_firstname</td>
+        <td valign="top">First name of contact </td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;contact_middlename</td>
+        <td valign="top">Middle name of contact </td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;contact_lastname</td>
+        <td valign="top">Last name of contact </td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;contact_organization</td>
+        <td valign="top">Organization name of contact</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;contact_address</td>
+        <td valign="top">Address of the contact</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;contact_city</td>
+        <td valign="top">City of the contact</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;contact_zipcode</td>
+        <td valign="top">Zipcode of the contact</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;contact_statecode</td>
+        <td valign="top">Country of contact</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;contact_countrycode</td>
+        <td valign="top">State of contact</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;contact_phone</td>
+        <td valign="top">Phone number of contact (international format)</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;contact_fax</td>
+        <td valign="top">Fax number of contact (international format)</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;contact_email</td>
+        <td valign="top">Email address of contact</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;contact_domain</td>
+        <td valign="top">Array of one or multiple domains contact is linked to </td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;&emsp;domainname</td>
+        <td valign="top">Name of domain contact is linked to</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;&emsp;type</td>
+        <td valign="top">Contact type (owner, tech, admin or billing)</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">status</td>
+        <td valign="top">OK </td>
+        <td valign="top">Paid</td>
+    </tr>
+</table>
+<p>&nbsp;</p>
+<p><strong>Example:</strong> Get info on one contact_id</p>
+<img src="../images.v2/icon_input.png" alt="Input" width="25" height="25" class="api_icon" />
+<div class="code_box"><span class="code_title">Request</span>
+    <textarea class="apitextarea" readonly rows=5 cols=90>
+    curl -X GET "https://api.dot.cf/v2/contact/list.xml\
+    ?email=john@smith.net\
+    &password=68bb651cb1\
+    &contact_id=8837012\
+    "
+    </textarea>
+</div>
+<img src="../images.v2/icon_output.png" alt="Output" width="25" height="25" class="api_icon" />
+<div class="code_box"> <span class="code_title">Response</span>
+    <textarea class="apitextarea" readonly rows=10 cols=90>
+    <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+    <dotcf>
+        <result>CONTACTS LISTED</result>
+        <contact>
+            <contact_id>8837012</contact_id>
+            <contact_title>Mr.</contact_title>
+            <contact_firstname>John</contact_firstname>
+            <contact_lastname>Smith</contact_lastname>
+            <contact_organization>A-Team</contact_organization>
+            <contact_address>Main Road 1</contact_address>
+            <contact_city>Los Angeles</contact_city>
+            <contact_zipcode>90001</contact_zipcode>
+            <contact_statecode>US-CA</contact_statecode>
+            <contact_countrycode>US</contact_countrycode>
+            <contact_phone>+1-310-123456</contact_phone>
+            <contact_fax></contact_fax>
+            <contact_email>hannibal@a-team.tk</contact_email>
+            <contact_domain>
+                <domainname>a-team.tk</domainname>
+                <type>owner</type>
+            </contact_domain>
+        </contact>
+        <status>OK</status>
+    </dotcf>
+    </textarea>
+</div>
+<p>&nbsp;</p><div class="clear"></div><hr>
+<h3>List contacts under account</h3>
+<img src="../images.v2/icon_syntax.png" alt="Input" width="25" height="25" class="api_icon" />
+<div class="code_text"><strong>URL:</strong> https://api.dot.cf/v2/contact/list<br />
+    <strong>Method:</strong> GET</div>
+<img src="../images.v2/icon_description.png" alt="Input" width="25" height="25" class="api_icon" />
+<div class="code_text"><strong>Description:</strong> List all contacts under users account.</div>
+<div class="clear"></div>
+<span class="tabletitle">Parameters</span>
+<table width="95%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td width="19%" valign="top"><strong>Parameter</strong></td>
+        <td width="44%" valign="top"><strong>Description</strong></td>
+        <td width="19%" valign="top"><strong>Required</strong></td>
+        <td width="18%" valign="top"><strong>Multiple</strong></td>
+    </tr>
+    <tr>
+        <td valign="top">email</td>
+        <td valign="top">E-mail address used for authentication</td>
+        <td valign="top">Yes</td>
+        <td valign="top">No</td>
+    </tr>
+    <tr>
+        <td valign="top">password</td>
+        <td valign="top">Password used for authentication</td>
+        <td valign="top">Yes</td>
+        <td valign="top">No</td>
+    </tr>
+</table>
+<p>&nbsp;</p>
+
+<span class="tabletitle">Returned properties</span>
+<table width="95%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td width="26%" valign="top"><strong>Property</strong></td>
+        <td width="54%" valign="top"><strong>Description</strong></td>
+        <td width="20%" valign="top"><strong>Type</strong></td>
+    </tr>
+    <tr>
+        <td valign="top">result</td>
+        <td valign="top">CONTACTS LISTED</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">contact</td>
+        <td valign="top">Array of one or multiple contacts</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;contact_id</td>
+        <td valign="top">ID of contact</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;contact_title</td>
+        <td valign="top">Title of the contact</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;contact_firstname</td>
+        <td valign="top">First name of contact</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;contact_middlename</td>
+        <td valign="top">Middle name of contact</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;contact_lastname</td>
+        <td valign="top">Last name of contact</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;contact_organization</td>
+        <td valign="top">Organization name of contact</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;contact_address</td>
+        <td valign="top">Address of the contact</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;contact_city</td>
+        <td valign="top">City of the contact</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;contact_zipcode</td>
+        <td valign="top">Zipcode of the contact</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;contact_statecode</td>
+        <td valign="top">Country of contact</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;contact_countrycode</td>
+        <td valign="top">State of contact</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;contact_phone</td>
+        <td valign="top">Phone number of contact (international format)</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;contact_fax</td>
+        <td valign="top">Fax number of contact (international format)</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;contact_email</td>
+        <td valign="top">Email address of contact</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;contact_domain</td>
+        <td valign="top">Array of one or multiple domains contact is linked to</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;&emsp;domainname</td>
+        <td valign="top">Name of domain contact is linked to</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;&emsp;type</td>
+        <td valign="top">Contact type (owner, tech, admin or billing)</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">status</td>
+        <td valign="top">OK </td>
+        <td valign="top">Paid</td>
+    </tr>
+</table>
+<p>&nbsp;</p>
+<p><strong>Example:</strong> List Contacts.</p>
+<img src="../images.v2/icon_input.png" alt="Input" width="25" height="25" class="api_icon" />
+<div class="code_box"><span class="code_title">Request</span>
+    <textarea class="apitextarea" readonly rows=4 cols=90>
+    curl -X GET "https://api.dot.cf/v2/contact/list.xml\
+    ?email=john@smith.net\
+    &password=68bb651cb1\
+    "
+    </textarea>
+</div>
+<img src="../images.v2/icon_output.png" alt="Output" width="25" height="25" class="api_icon" />
+<div class="code_box"> <span class="code_title">Response</span>
+    <textarea class="apitextarea" readonly rows=10 cols=90>
+    <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+    <dotcf>
+        <result>CONTACTS LISTED</result>
+        <contact>
+            <contact_id>8837012</contact_id>
+            <contact_title>Mr.</contact_title>
+            <contact_firstname>John</contact_firstname>
+            <contact_lastname>Smith</contact_lastname>
+            <contact_organization>A-Team</contact_organization>
+            <contact_address>Main Road 1</contact_address>
+            <contact_city>Los Angeles</contact_city>
+            <contact_zipcode>90001</contact_zipcode>
+            <contact_statecode>US-CA</contact_statecode>
+            <contact_countrycode>US</contact_countrycode>
+            <contact_phone>+1-310-123456</contact_phone>
+            <contact_fax></contact_fax>
+            <contact_email>hannibal@a-team.tk</contact_email>
+            <contact_domain>
+                <domainname>a-team.tk</domainname>
+                <type>owner</type>
+            </contact_domain>
+        </contact>
+        <status>OK</status>
+    </dotcf>
+    </textarea>
+</div>
+<div class="clear"></div> <hr><p>&nbsp;</p>
+<h2>Functions related to domain transfers</h2>
+<p>&nbsp;</p>
+<h3>Get price of a domain transfer</h3>
+<img src="../images.v2/icon_syntax.png" alt="Input" width="25" height="25" class="api_icon" />
+<div class="code_text"><strong>URL:</strong> https://api.dot.cf/v2/domain/transfer/price<br />
+    <strong>Method:</strong> GET</div>
+<img src="../images.v2/icon_description.png" alt="Input" width="25" height="25" class="api_icon" />
+<div class="code_text"><strong>Description:</strong> Transfers are made by gaining partners that use an obtained authorization code from the registrant or the losing partner. All transfers are subject to a one year renewal. Before a transfer is made the gaining partner may request the retail price and partner price of the transfer (and therefore the one year renewal). This API call only provides prices and does not perform the actual transfer.</div>
+<div class="clear"></div>
+<span class="tabletitle">Parameters</span>
+<table width="95%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td width="19%" valign="top"><strong>Parameter</strong></td>
+        <td width="44%" valign="top"><strong>Description</strong></td>
+        <td width="19%" valign="top"><strong>Required</strong></td>
+        <td width="18%" valign="top"><strong>Multiple</strong></td>
+    </tr>
+    <tr>
+        <td valign="top">domainname</td>
+        <td valign="top">The domainname</td>
+        <td valign="top">Yes</td>
+        <td valign="top">No</td>
+    </tr>
+    <tr>
+        <td valign="top">authcode</td>
+        <td valign="top">The authorization code</td>
+        <td valign="top">Yes</td>
+        <td valign="top">No</td>
+    </tr>
+    <tr>
+        <td valign="top">email</td>
+        <td valign="top">E-mail address used for authentication</td>
+        <td valign="top">Yes</td>
+        <td valign="top">No</td>
+    </tr>
+    <tr>
+        <td valign="top">password</td>
+        <td valign="top">Password used for authentication</td>
+        <td valign="top">Yes</td>
+        <td valign="top">No</td>
+    </tr>
+</table>
+<p>&nbsp;</p>
+
+<span class="tabletitle">Returned properties</span>
+<table width="95%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td width="19%" valign="top"><strong>Property</strong></td>
+        <td width="63%" valign="top"><strong>Description</strong></td>
+        <td width="18%" valign="top"><strong>Type</strong></td>
+    </tr>
+    <tr>
+        <td valign="top">transfer</td>
+        <td valign="top">Array of one or multiple transfers</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;domainname</td>
+        <td valign="top">Domain name updated </td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;domaintype</td>
+        <td valign="top">Type of the domain</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;period</td>
+        <td valign="top">Length of renewal after transfer; always 1Y</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;currency</td>
+        <td valign="top">The currency for given prices</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;retailprice</td>
+        <td valign="top">Price for registrant</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;partnerprice</td>
+        <td valign="top">Price for partner</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">result</td>
+        <td valign="top">PRICES PROVIDED</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">status</td>
+        <td valign="top">OK </td>
+        <td valign="top">Paid</td>
+    </tr>
+</table>
+<p>&nbsp;</p>
+<p><strong>Example:</strong> Request transferprice for TEST002.TK</p>
+<img src="../images.v2/icon_input.png" alt="Input" width="25" height="25" class="api_icon" />
+<div class="code_box"><span class="code_title">Request</span>
+    <textarea class="apitextarea" readonly rows=6 cols=90>
+    curl -X GET https://api.dot.cf/v2/domain/transfer/price.xml?\
+    domainname=test002.tk\
+    &authcode=7738977ABCDF889001\
+    &email=john@smith.net\
+    &password=68bb651cb1\
+    "
+    </textarea>
+</div>
+<img src="../images.v2/icon_output.png" alt="Output" width="25" height="25" class="api_icon" />
+<div class="code_box"> <span class="code_title">Response</span>
+    <textarea class="apitextarea" readonly rows=11 cols=90>
+    <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+    <dotcf>
+        <transfer>
+            <domainname>TEST002.TK</domainname>
+            <currency>EUR</currency>
+            <period>1Y</period>
+            <retailprice>12.50</retailprice>
+            <partnerprice>1.00</partnerprice>
+            <status>OK</status>
+            <domaintype>PAID</domaintype>
+        </transfer>
+        <result>PRICES PROVIDED</result>
+    </dotcf>
+    </textarea>
+</div>
+<p>&nbsp;</p><div class="clear"></div><hr>
+<h3>Request a domain transfer</h3>
+<img src="../images.v2/icon_syntax.png" alt="Input" width="25" height="25" class="api_icon" />
+<div class="code_text"><strong>URL:</strong> https://api.dot.cf/v2/domain/transfer/request<br />
+    <strong>Method:</strong> POST</div>
+<img src="../images.v2/icon_description.png" alt="Input" width="25" height="25" class="api_icon" />
+<div class="code_text"><strong>Description:</strong> Transfer requests are performed by resellers that wish to transfer domain names from other resellers or registrars to their own account.</div>
+<div class="clear"></div>
+<span class="tabletitle">Parameters</span>
+<table width="95%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td width="19%" valign="top"><strong>Parameter</strong></td>
+        <td width="44%" valign="top"><strong>Description</strong></td>
+        <td width="19%" valign="top"><strong>Required</strong></td>
+        <td width="18%" valign="top"><strong>Multiple</strong></td>
+    </tr>
+    <tr>
+        <td valign="top">domainname</td>
+        <td valign="top">The name of the domain</td>
+        <td valign="top">Yes</td>
+        <td valign="top">No</td>
+    </tr>
+    <tr>
+        <td valign="top">authcode</td>
+        <td valign="top">The authorization code</td>
+        <td valign="top">Yes</td>
+        <td valign="top">No</td>
+    </tr>
+    <tr>
+        <td valign="top">period</td>
+        <td valign="top">Number of years to renew the domain. Defaults to 1Y</td>
+        <td valign="top">Yes</td>
+        <td valign="top">No</td>
+    </tr>
+    <tr>
+        <td valign="top">owner_id</td>
+        <td valign="top">contact_id of new owner</td>
+        <td valign="top">Yes</td>
+        <td valign="top">No</td>
+    </tr>
+    <tr>
+        <td valign="top">email</td>
+        <td valign="top">E-mail address used for authentication</td>
+        <td valign="top">Yes</td>
+        <td valign="top">No</td>
+    </tr>
+    <tr>
+        <td valign="top">password</td>
+        <td valign="top">Password used for authentication</td>
+        <td valign="top">Yes</td>
+        <td valign="top">No</td>
+    </tr>
+</table>
+<p>&nbsp;</p>
+
+<span class="tabletitle">Returned properties</span>
+<table width="95%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td width="19%" valign="top"><strong>Property</strong></td>
+        <td width="63%" valign="top"><strong>Description</strong></td>
+        <td width="18%" valign="top"><strong>Type</strong></td>
+    </tr>
+    <tr>
+        <td valign="top">result</td>
+        <td valign="top">TRANSFER REQUESTED </td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">transfer</td>
+        <td valign="top">Array of one or more transfers</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;domainname</td>
+        <td valign="top">Domain name updated</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;status</td>
+        <td valign="top">REQUESTED</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">status</td>
+        <td valign="top">OK </td>
+        <td valign="top">Paid</td>
+    </tr>
+</table>
+<p>&nbsp;</p>
+<p><strong>Example:</strong> Transfer domain TEST002.TK to our account</p>
+<img src="../images.v2/icon_input.png" alt="Input" width="25" height="25" class="api_icon" />
+<div class="code_box"><span class="code_title">Request</span>
+    <textarea class="apitextarea" readonly rows=8 cols=90>
+    curl -X POST https://api.dot.cf/v2/domain/transfer/request.xml\
+    -d "domainname=test002.tk\
+    &authcode=7738977ABCDF889001\
+    &period=1Y\
+    &email=john@smith.net\
+    &owner_id=JSMITH001\
+    &password=68bb651cb1\
+    "
+    </textarea>
+</div>
+<img src="../images.v2/icon_output.png" alt="Output" width="25" height="25" class="api_icon" />
+<div class="code_box"> <span class="code_title">Response</span>
+    <textarea class="apitextarea" readonly rows=6 cols=90>
+    <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+    <dotcf>
+        <transfer>
+            <domainname>TEST002.TK</domainname>
+            <status>REQUESTED</status>
+        </transfer>
+        <result>TRANSFER REQUESTED</result>
+        <status>OK</status>
+    </dotcf>
+    </textarea>
+</div>
+<p>&nbsp;</p><div class="clear"></div><hr>
+<h3>Approve a domain transfer</h3>
+<img src="../images.v2/icon_syntax.png" alt="Input" width="25" height="25" class="api_icon" />
+<div class="code_text"><strong>URL:</strong> https://api.dot.cf/v2/domain/transfer/approve<br />
+    <strong>Method:</strong> POST</div>
+<img src="../images.v2/icon_description.png" alt="Input" width="25" height="25" class="api_icon" />
+<div class="code_text"><strong>Description:</strong> Approve an outgoing domain transfer.</div>
+<div class="clear"></div>
+<span class="tabletitle">Parameters</span>
+<table width="95%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td width="19%" valign="top"><strong>Parameter</strong></td>
+        <td width="44%" valign="top"><strong>Description</strong></td>
+        <td width="19%" valign="top"><strong>Required</strong></td>
+        <td width="18%" valign="top"><strong>Multiple</strong></td>
+    </tr>
+    <tr>
+        <td valign="top">domainname</td>
+        <td valign="top">The domainname</td>
+        <td valign="top">Yes</td>
+        <td valign="top">No</td>
+    </tr>
+    <tr>
+        <td valign="top">email</td>
+        <td valign="top">E-mail address used for authentication</td>
+        <td valign="top">Yes</td>
+        <td valign="top">No</td>
+    </tr>
+    <tr>
+        <td valign="top">password</td>
+        <td valign="top">Password used for authentication</td>
+        <td valign="top">Yes</td>
+        <td valign="top">No</td>
+    </tr>
+</table>
+<p>&nbsp;</p>
+
+<span class="tabletitle">Returned properties</span>
+<table width="95%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td width="19%" valign="top"><strong>Property</strong></td>
+        <td width="63%" valign="top"><strong>Description</strong></td>
+        <td width="18%" valign="top"><strong>Type</strong></td>
+    </tr>
+    <tr>
+        <td valign="top">result</td>
+        <td valign="top">TRANSFER APPROVED </td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">transfer</td>
+        <td valign="top">Array of one or more transfers</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;domainname</td>
+        <td valign="top">Domain name updated</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;status</td>
+        <td valign="top">APPROVED</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">status</td>
+        <td valign="top">OK </td>
+        <td valign="top">Paid</td>
+    </tr>
+</table>
+<p>&nbsp;</p>
+<p><strong>Example:</strong> Approce transfer of domainTEST002.TK from our account.</p>
+<img src="../images.v2/icon_input.png" alt="Input" width="25" height="25" class="api_icon" />
+<div class="code_box"><span class="code_title">Request</span>
+    <textarea class="apitextarea" readonly rows=5 cols=90>
+    curl -X POST https://api.dot.cf/v2/domain/transfer/approve.xml\
+    -d "domainname=test002.tk\
+    &email=john@smith.net\
+    &password=68bb651cb1\
+    "
+    </textarea>
+</div>
+<img src="../images.v2/icon_output.png" alt="Output" width="25" height="25" class="api_icon" />
+<div class="code_box"> <span class="code_title">Response</span>
+    <textarea class="apitextarea" readonly rows=6 cols=90>
+    <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+    <dotcf>
+        <transfer>
+            <domainname>TEST002.TK</domainname>
+            <status>APPROVED</status>
+        </transfer>
+        <result>TRANSFER APPROVED</result>
+        <status>OK</status>
+    </dotcf>
+    </textarea>
+</div>
+<p>&nbsp;</p><div class="clear"></div><hr>
+<h3>Decline a domain transfer</h3>
+<img src="../images.v2/icon_syntax.png" alt="Input" width="25" height="25" class="api_icon" />
+<div class="code_text"><strong>URL:</strong> https://api.dot.cf/v2/domain/transfer/decline<br />
+    <strong>Method:</strong> POST</div>
+<img src="../images.v2/icon_description.png" alt="Input" width="25" height="25" class="api_icon" />
+<div class="code_text"><strong>Description:</strong> Decline an outgoing domain transfer.</div>
+<div class="clear"></div>
+<span class="tabletitle">Parameters</span>
+<table width="95%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td width="19%" valign="top"><strong>Parameter</strong></td>
+        <td width="44%" valign="top"><strong>Description</strong></td>
+        <td width="19%" valign="top"><strong>Required</strong></td>
+        <td width="18%" valign="top"><strong>Multiple</strong></td>
+    </tr>
+    <tr>
+        <td valign="top">domainname</td>
+        <td valign="top">The domain name</td>
+        <td valign="top">Yes</td>
+        <td valign="top">No</td>
+    </tr>
+    <tr>
+        <td valign="top">reason</td>
+        <td valign="top">Reason of declining the transfer </td>
+        <td valign="top">Yes</td>
+        <td valign="top">No</td>
+    </tr>
+    <tr>
+        <td valign="top">email</td>
+        <td valign="top">E-mail address used for authentication</td>
+        <td valign="top">Yes</td>
+        <td valign="top">No</td>
+    </tr>
+    <tr>
+        <td valign="top">password</td>
+        <td valign="top">Password used for authentication</td>
+        <td valign="top">Yes</td>
+        <td valign="top">No</td>
+    </tr>
+</table>
+<p>&nbsp;</p>
+
+<span class="tabletitle">Returned properties</span>
+<table width="95%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td width="19%" valign="top"><strong>Property</strong></td>
+        <td width="63%" valign="top"><strong>Description</strong></td>
+        <td width="18%" valign="top"><strong>Type</strong></td>
+    </tr>
+    <tr>
+        <td valign="top">result</td>
+        <td valign="top">TRANSFER DECLINED</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">transfer</td>
+        <td valign="top">Array of one or more transfers</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;domainname</td>
+        <td valign="top">Domain name updated</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;status</td>
+        <td valign="top">DECLINED</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">status</td>
+        <td valign="top">OK </td>
+        <td valign="top">Paid</td>
+    </tr>
+</table>
+<p>&nbsp;</p>
+<p><strong>Example:</strong> Decline a domain transfer of TEST002.TK from our account.</p>
+<img src="../images.v2/icon_input.png" alt="Input" width="25" height="25" class="api_icon" />
+<div class="code_box"><span class="code_title">Request</span>
+    <textarea class="apitextarea" readonly rows=5 cols=90>
+    curl -X POST https://api.dot.cf/v2/domain/transfer/decline.xml\
+    -d "domainname=test002.tk\
+    &reason=no_payment\
+    &email=john@smith.net\
+    &password=68bb651cb1\
+    </textarea>
+</div>
+<img src="../images.v2/icon_output.png" alt="Output" width="25" height="25" class="api_icon" />
+<div class="code_box"> <span class="code_title">Response</span>
+    <textarea class="apitextarea" readonly rows=6 cols=90>
+    <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+    <dotcf>
+        <transfer>
+            <domainname>TEST002.TK</domainname>
+            <status>DECLINED</status>
+        </transfer>
+        <result>TRANSFER DECLINED</result>
+        <status>OK</status>
+    </dotcf>
+    </textarea>
+</div>
+<p>&nbsp;</p><div class="clear"></div><hr>
+<h3>List current domain transfers  </h3>
+<img src="../images.v2/icon_syntax.png" alt="Input" width="25" height="25" class="api_icon" />
+<div class="code_text"><strong>URL:</strong> https://api.dot.cf/v2/domain/transfer/list<br />
+    <strong>Method:</strong> GET</div>
+<img src="../images.v2/icon_description.png" alt="Input" width="25" height="25" class="api_icon" />
+<div class="code_text"><strong>Description:</strong> Retrieve a list of domain transfers. Domain transfers that are in final status approved or declined will be listed for a week after the transfer update.</div>
+<div class="clear"></div>
+<span class="tabletitle">Parameters</span>
+<table width="95%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td width="19%" valign="top"><strong>Parameter</strong></td>
+        <td width="44%" valign="top"><strong>Description</strong></td>
+        <td width="19%" valign="top"><strong>Required</strong></td>
+        <td width="18%" valign="top"><strong>Multiple</strong></td>
+    </tr>
+
+    <tr>
+        <td valign="top">email</td>
+        <td valign="top">E-mail address used for authentication</td>
+        <td valign="top">Yes</td>
+        <td valign="top">No</td>
+    </tr>
+    <tr>
+        <td valign="top">password</td>
+        <td valign="top">Password used for authentication</td>
+        <td valign="top">Yes</td>
+        <td valign="top">No</td>
+    </tr>
+</table>
+<p>&nbsp;</p>
+
+<span class="tabletitle">Returned properties</span>
+<table width="95%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td width="19%" valign="top"><strong>Property</strong></td>
+        <td width="63%" valign="top"><strong>Description</strong></td>
+        <td width="18%" valign="top"><strong>Type</strong></td>
+    </tr>
+    <tr>
+        <td valign="top">result</td>
+        <td valign="top"><nr> TRANSFERS LISTED</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">transfer</td>
+        <td valign="top">Zero, one or multiple entries containing information about the domain  transfer </td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;domainname</td>
+        <td valign="top">The name of the domain</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;transfertype</td>
+        <td valign="top">Incoming or outgoing</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;status</td>
+        <td valign="top">Status of the transfer. PENDING, APPROVED, DECLINED</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;newregistrar</td>
+        <td valign="top">In case of outgoing transfer, name of new registrar</td>
+        <td valign="top">Paid</td>
+    </tr>
+    <tr>
+        <td valign="top">&emsp;lastupdate</td>
+        <td valign="top">Date of last update</td>
+        <td valign="top">Paid</td>
+    </tr>
+</table>
+<p>&nbsp;</p>
+<p><strong>Example:</strong> Retrieve a list of domain transfers</p>
+<img src="../images.v2/icon_input.png" alt="Input" width="25" height="25" class="api_icon" />
+<div class="code_box"><span class="code_title">Request</span>
+    <textarea class="apitextarea" readonly rows=4 cols=90>
+    curl -X POST https://api.dot.cf/v2/domain/transfer/list.xml\
+    -d "email=john@smith.net\
+    &password=68bb651cb1\
+    "
+    </textarea>
+</div>
+<img src="../images.v2/icon_output.png" alt="Output" width="25" height="25" class="api_icon" />
+<div class="code_box"> <span class="code_title">Response</span>
+    <textarea class="apitextarea" readonly rows=10 cols=90>
+    <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+    <dotcf>
+        <transfer>
+            <domainname>TEST002.TK</domainname>
+            <transfertype>INCOMING</transfertype>
+            <status>PENDING</status>
+            <lastupdate>2013-02-14 13:03:11</lastupdate>
+        </transfer>
+        <transfer>
+            <domainname>TEST0009.TK</domainname>
+            <transfertype>OUTGOING</transfertype>
+            <newregistrar>Freenom Inc.</newregistrar>
+            <status>APPROVED</status>
+            <lastupdate>2013-02-16 09:00:34</lastupdate>
+        </transfer>
+        <result>2 TRANSFERS LISTED</result>
+        <status>OK</status>
+    </dotcf>
+    </textarea>
+
+
+
+
+							<div class="clr"></div>
+						</div>
+					
+                    <div class="clr"></div>
+                  </div>
+
+                  
+                    <div class="clr"></div> 
+                  </div>
+                
+                </div>
+              </div>
+              <div class="formWrapHome6"></div>
+            </div><!-- Display End -->
+          </div> <!-- Content End -->
+        </div> <!-- background end -->
+      </div> <!-- main end -->  
+     <!-- masterWrapper end -->
+
+    
+    <!-- Footer Start -->
+    <div class="footer">
+      <div class="footer_container">
+        <ul class="menu left">
+          <li><h2>Dot CF</h2></li>
+          <li><a href="../../external.html?link=http://www.dot.cf/">Home</a></li>
+        </ul>
+               <ul class="menu left">
+          <li><h2>Company</h2></li>
+          <li><a href="aboutdotcf.html">About Dot CF</a></li>
+          <li><a href="policies.html">Policies</a></li>
+        </ul>
+        <ul class="menu left">
+          <li><h2>Support</h2></li>
+          <li><a href="faq.html">F.A.Q</a></li>
+          <li><a href="contactus.html">Contact us</a></li>
+          <li><a href="api.html">API</a></li>
+        </ul>
+        <div class="clr"></div>
+      </div>
+    </div>
+    <!-- Footer End -->
+
+  </div></body>
+<!-- Mirrored from www.dot.cf/en/api.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 15 Mar 2020 14:38:01 GMT -->
+</html>
